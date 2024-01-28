@@ -16,13 +16,13 @@
                 HorizontalOptions="Center" />
 
             <Label
-                Text="Tästä tulee Village Newbies:in uusi mökinvarausjärjestelmä!"
+                Text="Tervetuloa Village Newbies mökkijärjestelmään"
                 SemanticProperties.HeadingLevel="Level1"
                 FontSize="32"
                 HorizontalOptions="Center" />
 
             <Label
-                Text="Tervetuloa mökkijengi!"
+                Text="Näkyykö tämä muutos nyt myös githubin pään repossa?"
                 SemanticProperties.HeadingLevel="Level2"
                 SemanticProperties.Description="Welcome to dot net Multi platform App U I"
                 FontSize="18"
