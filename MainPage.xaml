@@ -10,8 +10,8 @@
             VerticalOptions="Center">
 
             <Image
-                Source="dotnet_bot.png"
-                SemanticProperties.Description="Cute dot net bot waving hi to you!"
+                Source="vn_logo.png"
+                SemanticProperties.Description="new logo maybe"
                 HeightRequest="200"
                 HorizontalOptions="Center" />
 
