@@ -1,10 +1,10 @@
 ﻿using MySql.Data.MySqlClient;
 
-namespace MySQLtest
+namespace booking_VillageNewbies
 {
-    internal class Program
+    internal class SQLtest
     {
-        static void Main(string[] args)
+        static void SQL()
         {
             string server = "localhost";
             string database = "hovi";
