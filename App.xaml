@@ -5,10 +5,62 @@
              x:Class="booking_VillageNewbies.App">
     <Application.Resources>
         <ResourceDictionary>
+            <!-- Village Newbies Color Schemes -->
+
+            <ResourceDictionary>
+                <Color x:Key="VN_TextColor">#1B1B1B</Color>
+                <Color x:Key="VN_SecondaryTextColor">#6a859a</Color>
+                <Color x:Key="VN_PrimaryColor">#d9dad9</Color>
+                <Color x:Key="VN_BackGroundColor">#22415A</Color>
+                <Color x:Key="VN_SecondaryBackGroundColor">#38546a</Color>
+                <Color x:Key="VN_AccentColor">#0C2A38</Color>
+                <Color x:Key="VN_SecondaryAccentColor">#2b3b44</Color>
+            </ResourceDictionary>
+
+
+            <!-- Automatic styles for stuff -->
+
+            <Style TargetType="ContentPage">
+                <Setter Property="BackgroundColor" Value="{StaticResource VN_SecondaryBackGroundColor}" />
+            </Style>
+            
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource VN_TextColor}"/>
+            </Style>
+            
+            <Style TargetType="CheckBox">
+                <Setter Property="Color" Value="{StaticResource VN_BackGroundColor}" />
+                <Setter Property="BackgroundColor" Value="{StaticResource VN_BackGroundColor}" />
+            </Style>
+            
+            <Style TargetType="Button">
+                <Setter Property="BackgroundColor" Value="{StaticResource VN_SecondaryAccentColor}" />
+                <Setter Property="TextColor" Value="{StaticResource VN_PrimaryColor}" />
+                <Setter Property="CornerRadius" Value="4" />
+            </Style>
+            
+            <Style TargetType="Entry">
+                <Setter Property="TextColor" Value="{StaticResource VN_TextColor}" />
+                <Setter Property="BackgroundColor" Value="{StaticResource VN_BackGroundColor}" />
+                <Setter Property="Border.Stroke" Value="{StaticResource VN_SecondaryAccentColor}" />
+            </Style>
+
+            <Style x:Key="frame" TargetType="Frame">
+                <Setter Property="BackgroundColor" Value="{StaticResource VN_BackGroundColor}" />
+                <Setter Property="CornerRadius" Value="4" />
+            </Style>
+
+            <Style x:Key="Entry" TargetType="Entry">
+                <Setter Property="BackgroundColor" Value="{StaticResource VN_PrimaryColor}" />
+            </Style>
+
+            <!-- Styles end -->
+
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>

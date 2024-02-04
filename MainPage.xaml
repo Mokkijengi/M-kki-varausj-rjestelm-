@@ -4,38 +4,120 @@
              x:Class="booking_VillageNewbies.MainPage">
 
     <ScrollView>
-        <VerticalStackLayout
-            Spacing="25"
-            Padding="30,0"
-            VerticalOptions="Center">
 
-            <Image
-                Source="vn_logo.png"
-                SemanticProperties.Description="new logo maybe"
-                HeightRequest="200"
-                HorizontalOptions="Center" />
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
 
-            <Label
-                Text="Tervetuloa Village Newbies mökkijärjestelmään"
-                SemanticProperties.HeadingLevel="Level1"
-                FontSize="32"
-                HorizontalOptions="Center" />
+            <!-- Calendar block with -->
+            <Frame Grid.Row="0" Grid.Column="0" Style="{StaticResource frame}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="10"/>
+                        <!-- Small empty row for spacing -->
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="10"/>
+                        <!-- Small empty column for spacing -->
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
 
-            <Label
-                Text="Näkyykö tämä muutos nyt myös githubin pään repossa?"
-                SemanticProperties.HeadingLevel="Level2"
-                SemanticProperties.Description="Welcome to dot net Multi platform App U I"
-                FontSize="18"
-                HorizontalOptions="Center" />
+                    <!-- Tulopäivä Header -->
+                    <Label Grid.Row="0" Grid.Column="0" Text="Tulopäivä" VerticalOptions="Center" HorizontalOptions="Start"/>
+                    <DatePicker Grid.Row="2" Grid.Column="0" x:Name="alkuPvm" Date="{Binding Date}" BackgroundColor="{StaticResource VN_PrimaryColor}"/>
 
-            <Button
-                x:Name="CounterBtn"
-                Text="Click me"
-                SemanticProperties.Hint="Counts the number of times you click"
-                Clicked="OnCounterClicked"
-                HorizontalOptions="Center" />
+                    <!-- Lähtöpäivä Header -->
+                    <Label Grid.Row="0" Grid.Column="2" Text="Lähtöpäivä" VerticalOptions="Center" HorizontalOptions="Start" />
+                    <DatePicker Grid.Row="2" Grid.Column="2" x:Name="loppuPvm" Date="{Binding Date}" BackgroundColor="{StaticResource VN_PrimaryColor}"/>
+                </Grid>
+            </Frame>
 
-        </VerticalStackLayout>
+            <!-- Opening List -->
+            <Frame Grid.Row="1" Grid.Column="0" Style="{StaticResource frame}">
+                <Picker x:Name="aluePicker" Title="Valitse alue" BackgroundColor="{StaticResource VN_PrimaryColor}" HorizontalOptions="Start" WidthRequest="250"/>
+            </Frame>
+
+            <!-- List of Items -->
+            <Frame Grid.Row="2" Style="{StaticResource frame}">
+                <ScrollView BackgroundColor="{StaticResource VN_PrimaryColor}">
+                    <ListView x:Name="cabinListView">
+                        <!-- Your ListView setup here -->
+                    </ListView>
+                </ScrollView>
+            </Frame>
+
+            <Grid Grid.Row="0" Grid.Column="1" Margin="10,10,10,10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="10" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Label -->
+                <Label Grid.Row="0" Text="Mökin nimi tulee tähän" Margin="10" FontSize="30"/>
+
+                <!-- Textboxes -->
+                <Label Grid.Row="1" Text="Alue:" Margin="10"/>
+                <Label Grid.Row="2" Text="Osoite" Margin="10"/>
+
+                <!-- Large Textbox -->
+                <Label Grid.Row="4" Margin="10"
+                    Text="This is a multiline Label. It will wrap to the next line when the text exceeds the width of the label. You can control the number of visible lines using MaxLines property."
+                    LineBreakMode="WordWrap"
+                    MaxLines="10" MaximumWidthRequest="500"/>
+
+                <!-- Price and +alv -->
+                <StackLayout Grid.Row="5" Orientation="Horizontal" Margin="10">
+                    <Label Text="hinta/day" VerticalOptions="Center" />
+                    <Label Text="+ alv" VerticalOptions="Center" Margin="5,0,0,0" />
+                </StackLayout>
+
+                <Label Grid.Row="6" Text="hinta yhteensä euroa" Margin="10"/>
+
+                <!-- Buttons -->
+                <Button Grid.Row="7" Grid.Column="0" Text="Varaukseen" Margin="10" MaximumWidthRequest="150" HorizontalOptions="Start"/>
+
+            </Grid>
+
+            <!-- CheckBox list -->
+            <ListView Grid.Row="0" Grid.Column="2" x:Name="checkBoxList" HorizontalOptions="EndAndExpand" Margin="10">
+                <ListView.Header>
+                    <Label Text="Valitse lisäpalvelut:" Margin="0,0,0,10"/>
+                </ListView.Header>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Orientation="Horizontal">
+                                <CheckBox IsChecked="{Binding IsSelected}" />
+                                <Label Text="{Binding Label}" VerticalTextAlignment="Center" />
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+        </Grid>
+        
     </ScrollView>
-
+    
 </ContentPage>
