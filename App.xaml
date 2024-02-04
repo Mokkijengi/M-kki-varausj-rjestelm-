@@ -41,7 +41,7 @@
             
             <Style TargetType="Entry">
                 <Setter Property="TextColor" Value="{StaticResource VN_TextColor}" />
-                <Setter Property="BackgroundColor" Value="{StaticResource VN_BackGroundColor}" />
+                <Setter Property="BackgroundColor" Value="{StaticResource VN_PrimaryColor}" />
                 <Setter Property="Border.Stroke" Value="{StaticResource VN_SecondaryAccentColor}" />
             </Style>
 
