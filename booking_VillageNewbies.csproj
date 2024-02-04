@@ -48,6 +48,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <AndroidResource Remove="MySQLtest\**" />
+	  <Compile Remove="MySQLtest\**" />
+	  <EmbeddedResource Remove="MySQLtest\**" />
+	  <MauiCss Remove="MySQLtest\**" />
+	  <MauiXaml Remove="MySQLtest\**" />
+	  <None Remove="MySQLtest\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <None Remove="Resources\Images\VN_logo.png" />
 	</ItemGroup>
 
