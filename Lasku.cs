@@ -1,6 +1,7 @@
 ﻿using System;
 
-public class Lasku
+public class Lasku//Jokaisessa classissa parametrit suoraan ER-kaaviosta. Lisäksi osaan alustettu
+                  //listoija joita tullaan mahdollisesti tarvitsemaan.
 {
     public int LaskuId { get; set; }
     public int AsiakasId { get; set; }
@@ -8,7 +9,7 @@ public class Lasku
     public double Summa { get; set; }
     public double Alv { get; set; }
 
-    // Navigointi Asiakkaaseen ja Varaukseen
+    // Navigointi Asiakkaaseen ja Varaukseen, tätä vielä selviteltävä kuinka saadaan toimimaan/ tarvitseeko
     public Asiakas Asiakas { get; set; }
     public Varaus Varaus { get; set; }
 

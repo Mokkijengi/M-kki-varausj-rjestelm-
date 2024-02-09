@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-public class Asiakas
+public class Asiakas//Jokaisessa classissa parametrit suoraan ER-kaaviosta. Lisäksi osaan alustettu
+                    //listoija joita tullaan mahdollisesti tarvitsemaan.
 {
     public int AsiakasId { get; set; }
     public int Postinro { get; set; }

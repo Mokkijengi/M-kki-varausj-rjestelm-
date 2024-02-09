@@ -1,6 +1,7 @@
 ﻿using System;
 
-public class Palvelu
+public class Palvelu//Jokaisessa classissa parametrit suoraan ER-kaaviosta. Lisäksi osaan alustettu
+                    //listoija joita tullaan mahdollisesti tarvitsemaan.
 {
     public int PalveluId { get; set; }
     public string Nimi { get; set; }
@@ -9,7 +10,7 @@ public class Palvelu
     public int AlueId { get; set; }
  
     //public int Tyyppi {  get; set; }Tarvitaanko?
-    public Alue Alue { get; set; } // Navigointiominaisuus Alue-olioon
+    public Alue Alue { get; set; } // Navigointiominaisuus Alue-olioon / Tarvitaanko?
 
     public List<VarauksenPalvelut> VarauksenPalvelut { get; set; }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 
-public class Varaus
+public class Varaus //Jokaisessa classissa parametrit suoraan ER-kaaviosta. Lisäksi osaan alustettu
+                    //listoija joita tullaan mahdollisesti tarvitsemaan.
 {
     public int VarausId { get; set; }
     public int AsiakasId { get; set; }
@@ -10,7 +11,7 @@ public class Varaus
     public DateTime VarattuAlkupvm { get; set; }
     public DateTime VarattuLoppupvm { get; set; }
 
-    // Navigointia varten alla olevat kolme viittausta
+    // Navigointia varten alla olevat kolme viittausta, selvitellään onko tarpeen
     public Asiakas Asiakas { get; set; }
     public Mokki Mokki { get; set; }
     public List<VarauksenPalvelut> VarauksenPalvelut { get; set; }

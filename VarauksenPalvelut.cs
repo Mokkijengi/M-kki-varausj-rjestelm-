@@ -1,6 +1,7 @@
 ﻿using System;
 
-public class VarauksenPalvelut
+public class VarauksenPalvelut //Jokaisessa classissa parametrit suoraan ER-kaaviosta. Lisäksi osaan alustettu
+                               //listoija joita tullaan mahdollisesti tarvitsemaan.
 {
     public int VarausId { get; set; }
     public int PalveluId { get; set; }

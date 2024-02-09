@@ -1,6 +1,7 @@
 ﻿using System;
 
-public class Mokki // Luodaan Mokki-olio, parametreiksi samat tiedot kuin SQL-kannassa
+public class Mokki//Jokaisessa classissa parametrit suoraan ER-kaaviosta. Lisäksi osaan alustettu
+                  //listoija joita tullaan mahdollisesti tarvitsemaan.
 {
     public int MokkiId { get; set; }
     public int AlueId { get; set; }
