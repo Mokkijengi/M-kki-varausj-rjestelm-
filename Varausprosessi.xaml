@@ -119,5 +119,8 @@
 
         </Grid>
 
+        <!-- add button to create the booking and create pdf -->
+        <!-- when created either open the pdf for viewing or open email with the invoice and clients email -->
+
     </ScrollView>
 </ContentPage>
