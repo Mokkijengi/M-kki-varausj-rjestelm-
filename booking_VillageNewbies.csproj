@@ -72,6 +72,9 @@
 	  <MauiXaml Update="Hallinto.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Varausprosessi.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
 
 </Project>

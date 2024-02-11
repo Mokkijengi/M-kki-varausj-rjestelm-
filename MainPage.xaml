@@ -95,7 +95,7 @@
                 <Label Grid.Row="6" Text="hinta yhteensä euroa" Margin="10"/>
 
                 <!-- Buttons -->
-                <Button Grid.Row="7" Grid.Column="0" Text="Varaukseen" Margin="10" MaximumWidthRequest="150" HorizontalOptions="Start"/>
+                <Button Grid.Row="7" Grid.Column="0" Text="Jatka varaukseen" Margin="10" MaximumWidthRequest="150" HorizontalOptions="Start" Clicked="JatkaVaraukseenClicked"/>
 
             </Grid>
 

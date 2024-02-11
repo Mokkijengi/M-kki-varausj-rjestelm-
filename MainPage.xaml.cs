@@ -54,6 +54,11 @@ namespace booking_VillageNewbies
             checkBoxList.ItemsSource = CheckBoxItems;
         }
 
+        private async void JatkaVaraukseenClicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new Varausprosessi());
+        }
+
 
     }
 }
