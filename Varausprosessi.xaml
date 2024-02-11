@@ -3,14 +3,121 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="booking_VillageNewbies.Varausprosessi"
              Title="Varausprosessi">
-    <VerticalStackLayout>
-        <Label 
-            Text="Tänne tulee asiakkaan lisäys varaukseen ja varauksen muut tiedot näkyviin. "
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-        <Label 
-            Text="Lisäksi laitetaan napit laskun luontia+katselua tai lähettämistä varten."
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+
+    <ScrollView>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Frame for Client Selection on the left -->
+            <!-- How to change the selected to highlight? OR get it to label-->
+            <Frame Grid.Row="0"  Grid.Column="0" Grid.RowSpan="3">
+                <VerticalStackLayout>
+                    <SearchBar BackgroundColor="{StaticResource VN_PrimaryColor}" x:Name="clientSearchBar" Placeholder="Hae asiakas tunnuksella tai nimellä" TextChanged="OnClientSearchTextChanged"/>
+                    <ListView BackgroundColor="{StaticResource VN_PrimaryColor}" x:Name="clientListView" ItemsSource="{Binding Aasiakkaat}" IsPullToRefreshEnabled="True" RefreshCommand="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}">
+                        <ListView.Header>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Label Text="Client ID" FontAttributes="Bold" Grid.Column="0" />
+                                <Label Text="Name" FontAttributes="Bold" Grid.Column="1" />
+                            </Grid>
+                        </ListView.Header>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Grid Padding="5">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="100" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" Text="{Binding ClientId}" />
+                                        <Label Grid.Column="1" Text="{Binding Nimi}" />
+                                    </Grid>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Detailed Information Grid -->
+            <Grid Grid.Column="1" Margin="20" RowSpacing="10" ColumnSpacing="40">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <!-- For labels -->
+                    <ColumnDefinition Width="*" />
+                    <!-- For content/values -->
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Detailed Information" VerticalOptions="Center" FontAttributes="Bold" FontSize="Medium" Margin="0,0,0,20"/>
+
+                <!-- Alue and its value -->
+                <Label Grid.Row="1" Grid.Column="0" Text="Alue" VerticalOptions="Center" />
+                <Label Grid.Row="1" Grid.Column="1" Text="[Area Name]" VerticalOptions="Center" />
+
+                <!-- Mökki and its value -->
+                <Label Grid.Row="2" Grid.Column="0" Text="Mökki" VerticalOptions="Center" />
+                <Label Grid.Row="2" Grid.Column="1" Text="[Cabin Name]" VerticalOptions="Center" />
+
+                <!-- Tulo and its value -->
+                <Label Grid.Row="3" Grid.Column="0" Text="Saapuminen" VerticalOptions="Center" />
+                <Label Grid.Row="3" Grid.Column="1" Text="[Start Date]" VerticalOptions="Center" />
+
+                <!-- Lähtö and its value -->
+                <Label Grid.Row="4" Grid.Column="0" Text="Lähtö" VerticalOptions="Center" />
+                <Label Grid.Row="4" Grid.Column="1" Text="[End Date]" VerticalOptions="Center" />
+
+                <!-- Hinta and its value -->
+                <Label Grid.Row="5" Grid.Column="0" Text="Hinta ajalta" VerticalOptions="Center" />
+                <Label Grid.Row="5" Grid.Column="1" Text="[Price]" VerticalOptions="Center" />
+                
+                <!-- Asiakas and its value -->
+                <Label Grid.Row="6" Grid.Column="0" Text="Asiakas" VerticalOptions="Center" />
+                <Label Grid.Row="6" Grid.Column="1" Text="[Client ID] [Name]" VerticalOptions="Center" />
+
+            </Grid>
+
+
+            <!-- CheckBox list -->
+            <ListView Grid.Row="0" Grid.Column="2" HorizontalOptions="EndAndExpand" Margin="70" ItemsSource="{Binding BillingOptions}">
+                <ListView.Header>
+                    <Label Text="Valitse laskutus" Margin="0,0,0,10"/>
+                </ListView.Header>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Orientation="Horizontal">
+                                <CheckBox IsChecked="{Binding IsSelected}" />
+                                <Label Text="{Binding Label}" VerticalTextAlignment="Center" />
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+        </Grid>
+
+    </ScrollView>
 </ContentPage>
