@@ -5,13 +5,11 @@
              Title="Hallinta">
     
     <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-
-        <Entry x:Name="nameEntry" Placeholder="Name" />
-
+        <Button Text="Mökit" FontSize="Large" HeightRequest="100" ImageSource="mokki.png" ContentLayout="Right,10"
+       Clicked="Mokki_Clicked" ></Button>
+        <Button Text="Palvelut" FontSize="Large" HeightRequest="100" ImageSource="palvelut.png" ContentLayout="Right,10"></Button>
+        <Button Text="Alueet" FontSize="Large" HeightRequest="100" ImageSource="alue.png" ContentLayout="Right,10"></Button>
+        <Button Text="Asiakkaat" FontSize="Large" HeightRequest="100" ImageSource="asiakas.png" ContentLayout="Right,10"></Button>
     </VerticalStackLayout>
 
    

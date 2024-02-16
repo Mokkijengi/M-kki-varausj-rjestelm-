@@ -8,11 +8,7 @@ public partial class Hallinta : ContentPage
 	{
 		InitializeComponent();
 
-
-
-        // Additional configurations for nameEntry if needed
-        nameEntry.TextChanged += NameEntry_TextChanged;
-        // Other properties can be set here as well
+  
     }
     private void NameEntry_TextChanged(object sender, TextChangedEventArgs e)
     {
@@ -20,4 +16,11 @@ public partial class Hallinta : ContentPage
         // Example: Console.WriteLine("Text is now: " + e.NewTextValue);
     }
 
+
+    private async void Mokki_Clicked(object sender, EventArgs e)
+    {
+        Mokkihallinta mokkihallinta = new Mokkihallinta();
+
+        await Navigation.PushAsync(mokkihallinta);
+    }
 }
