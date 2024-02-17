@@ -69,13 +69,25 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Mokkihallinta.xaml.cs">
+	  <Compile Update="Hallintasivut\Mokkihallinta.xaml.cs">
 	    <DependentUpon>Mokkihallinta.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
 	  <MauiXaml Update="Hallinta.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Hallintasivut\Aluehallinta.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Hallintasivut\Asiakashallinta.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Hallintasivut\Palveluhallinta.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Hallintasivut\Varaushallinta.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Hallinto.xaml">

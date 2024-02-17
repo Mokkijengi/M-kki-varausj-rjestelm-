@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="booking_VillageNewbies.Hallintasivut.Varaushallinta"
+             Title="Varaushallinta">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15" HorizontalOptions="Center">
+
+            <Label Text="Varauksen tiedot" FontSize="Large" HorizontalOptions="Center"/>
+
+            <Entry x:Name="varausID" Placeholder="Varauksen ID" WidthRequest="300"/>
+
+            <Entry x:Name="asiakasID" Placeholder="Asiakkaan ID"/>
+
+            <Entry x:Name="mokkiID" Placeholder="Mökin ID"/>
+
+            <Label x:Name="varausAlku" Text="Varauksen alku pvm"/>
+
+            <DatePicker x:Name="varauksenAlku" Date="{Binding Date}" BackgroundColor="{StaticResource VN_PrimaryColor}"/>
+
+            <Label x:Name="varausLoppu" Text="Varauksen loppu pvm"/>
+
+            <DatePicker x:Name="varauksenLoppu" Date="{Binding Date}" BackgroundColor="{StaticResource VN_PrimaryColor}"/>
+
+            <Picker x:Name="varauksenPalvelut" Title="Varauksen palvelut" WidthRequest="300"/>
+
+            <Button Text="Lisää varaus"/>
+
+            <Button Text="Poista varaus"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+
+</ContentPage>

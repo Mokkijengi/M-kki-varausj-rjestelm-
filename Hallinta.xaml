@@ -6,10 +6,15 @@
     
     <VerticalStackLayout>
         <Button Text="Mökit" FontSize="Large" HeightRequest="100" ImageSource="mokki.png" ContentLayout="Right,10"
-       Clicked="Mokki_Clicked" ></Button>
-        <Button Text="Palvelut" FontSize="Large" HeightRequest="100" ImageSource="palvelut.png" ContentLayout="Right,10"></Button>
-        <Button Text="Alueet" FontSize="Large" HeightRequest="100" ImageSource="alue.png" ContentLayout="Right,10"></Button>
-        <Button Text="Asiakkaat" FontSize="Large" HeightRequest="100" ImageSource="asiakas.png" ContentLayout="Right,10"></Button>
+       Clicked="Mokit_Clicked" ></Button>
+        <Button Text="Palvelut" FontSize="Large" HeightRequest="100" ImageSource="palvelut.png" ContentLayout="Right,10"
+       Clicked="Palvelut_Clicked"   ></Button>
+        <Button Text="Alueet" FontSize="Large" HeightRequest="100" ImageSource="alue.png" ContentLayout="Right,10"
+       Clicked="Alueet_Clicked"></Button>
+        <Button Text="Asiakkaat" FontSize="Large" HeightRequest="100" ImageSource="asiakas.png" ContentLayout="Right,10"
+       Clicked="Asiakkaat_Clicked"></Button>
+        <Button Text="Varaukset" FontSize="Large" HeightRequest="100" ImageSource="varaus.png" ContentLayout="Right,10"
+       Clicked="Varaukset_Clicked"></Button>
     </VerticalStackLayout>
 
    

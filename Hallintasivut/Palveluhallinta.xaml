@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="booking_VillageNewbies.Palveluhallinta"
+             Title="Palveluhallinta">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15" HorizontalOptions="Center">
+
+            <Label Text="Palvelun tiedot" FontSize="Large" HorizontalOptions="Center"/>
+
+            <Entry x:Name="palveluID" Placeholder="Palvelun ID" WidthRequest="300"/>
+
+            <Entry x:Name="palvelunNimi" Placeholder="Palvelun nimi"/>
+
+            <Entry x:Name="alueID" Placeholder="Alue ID"/>
+
+            <Entry x:Name="hinta" Placeholder="Hinta"/>
+
+            <Editor x:Name="palvelunKuvaus" Placeholder="Palvelun kuvaus" AutoSize="TextChanges"/>
+
+            <Button Text="Lisää palvelu"/>
+
+            <Button Text="Poista palvelu"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
