@@ -11,6 +11,7 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/> <!-- varausnappi -->
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
@@ -20,7 +21,7 @@
 
             <!-- Frame for Client Selection on the left -->
             <!-- How to change the selected to highlight? OR get it to label-->
-            <Frame Grid.Row="0"  Grid.Column="0" Grid.RowSpan="3">
+            <Frame Grid.Row="0"  Grid.Column="0" Grid.RowSpan="4">
                 <VerticalStackLayout>
                     <SearchBar BackgroundColor="{StaticResource VN_PrimaryColor}" x:Name="clientSearchBar" Placeholder="Hae asiakas tunnuksella tai nimellä" TextChanged="OnClientSearchTextChanged"/>
                     <ListView BackgroundColor="{StaticResource VN_PrimaryColor}" x:Name="clientListView" ItemsSource="{Binding Aasiakkaat}" IsPullToRefreshEnabled="True" RefreshCommand="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}">
@@ -116,6 +117,11 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+            
+            <!-- Button to create the booking -->
+            <Button Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Margin="20" Text="Suorita varaus" 
+                    VerticalOptions="End" HorizontalOptions="Center"
+                    Clicked="OnSuoritaVarausClicked"/>
 
         </Grid>
 
