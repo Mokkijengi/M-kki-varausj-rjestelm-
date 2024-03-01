@@ -9,8 +9,6 @@
 
             <Label Text="Asiakkaan tiedot" FontSize="Large" HorizontalOptions="Center"/>
 
-            <Entry x:Name="asiakasID" Placeholder="Asiakkaan ID" WidthRequest="300"/>
-
             <Entry x:Name="postiNro" Placeholder="Postinumero"/>
 
             <Entry x:Name="etuNimi" Placeholder="Etunimi"/>
@@ -28,6 +26,8 @@
             <Picker x:Name="laskut" Title="Laskut" WidthRequest="300"/>
 
             <Button Text="Lisää asiakas"/>
+
+            <Picker x:Name="asiakasPicker" ItemsSource="{Binding AsiakasNimet}" WidthRequest="300"/>
 
             <Button Text="Poista asiakas"/>
 

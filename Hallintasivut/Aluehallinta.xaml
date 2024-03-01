@@ -9,16 +9,16 @@
 
             <Label Text="Alueen tiedot" FontSize="Large" HorizontalOptions="Center"/>
 
-            <Entry x:Name="alueID" Placeholder="Alueen ID" WidthRequest="300"/>
-
             <Entry x:Name="alueenNimi" Placeholder="Alueen nimi"/>
 
             <Picker x:Name="alueenMokit" Title="Mökit" WidthRequest="300"/>
 
 
-            <Button Text="Lisää alue"/>
+            <Button Text="Lisää alue" Clicked="LisaaAlue_Clicked"/>
 
-            <Button Text="Poista alue"/>
+            <Picker x:Name="aluePicker" ItemsSource="{Binding AlueNimet}" Title="Valitse alue" WidthRequest="300"/>
+
+            <Button Text="Poista alue" Clicked="PoistaAlue_Clicked"/>
 
         </VerticalStackLayout>
     </ScrollView>

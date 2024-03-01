@@ -9,19 +9,21 @@
 
             <Label Text="Palvelun tiedot" FontSize="Large" HorizontalOptions="Center"/>
 
-            <Entry x:Name="palveluID" Placeholder="Palvelun ID" WidthRequest="300"/>
-
             <Entry x:Name="palvelunNimi" Placeholder="Palvelun nimi"/>
 
             <Entry x:Name="alueID" Placeholder="Alue ID"/>
 
             <Entry x:Name="hinta" Placeholder="Hinta"/>
 
+            <Entry x:Name="alv" Placeholder="alv%"/>
+
             <Editor x:Name="palvelunKuvaus" Placeholder="Palvelun kuvaus" AutoSize="TextChanges"/>
 
-            <Button Text="Lisää palvelu"/>
+            <Button Text="Lisää palvelu" Clicked="LisaaPalvelu_Clicked"/>
 
-            <Button Text="Poista palvelu"/>
+            <Picker x:Name="palveluPicker" ItemsSource="{Binding PalveluNimet}" WidthRequest="300"/>
+
+            <Button Text="Poista palvelu" Clicked="PoistaPalvelu_Clicked"/>
 
         </VerticalStackLayout>
     </ScrollView>
