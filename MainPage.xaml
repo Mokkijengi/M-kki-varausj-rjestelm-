@@ -50,11 +50,7 @@
 
             <!-- List of Items -->
             <Frame Grid.Row="2">
-                <ScrollView BackgroundColor="{StaticResource VN_PrimaryColor}">
-                    <ListView x:Name="cabinListView">
-                        <!-- Your ListView setup here -->
-                    </ListView>
-                </ScrollView>
+                <Picker x:Name="cabinListPicker" Title="Valitse mökki" BackgroundColor="{StaticResource VN_PrimaryColor}" HorizontalOptions="Start" WidthRequest="250"/>
             </Frame>
 
             <Grid Grid.Row="0" Grid.Column="1" Margin="10,10,10,10">
@@ -67,35 +63,43 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
+                <Label Grid.Row="0" Text="Mökin tiedot"  Margin="10" FontSize="30"/>
+
                 <!-- Label -->
-                <Label Grid.Row="0" Text="Mökin nimi tulee tähän" Margin="10" FontSize="30"/>
+                <Label Grid.Row="1" Text="Mökin nimi"  x:Name="cabinNameLabel" Margin="10" FontSize="30"/>
 
                 <!-- Textboxes -->
-                <Label Grid.Row="1" Text="Alue:" Margin="10"/>
-                <Label Grid.Row="2" Text="Osoite" Margin="10"/>
+                <Label Grid.Row="2" Text="Mökin sijainti"  x:Name="areaLabel" Margin="10"/>
+                <Label Grid.Row="3" Text="Mökin osoite"  x:Name="addressLabel" Margin="10"/>
 
                 <!-- Large Textbox -->
-                <Label Grid.Row="4" Margin="10"
-                    Text="This is a multiline Label. It will wrap to the next line when the text exceeds the width of the label. You can control the number of visible lines using MaxLines property."
+                <Label Grid.Row="4"   Margin="10"
+                    Text="Mökin kuvaus" x:Name="descriptionLabel"
                     LineBreakMode="WordWrap"
                     MaxLines="10" MaximumWidthRequest="500"/>
 
                 <!-- Price and +alv -->
                 <StackLayout Grid.Row="5" Orientation="Horizontal" Margin="10">
-                    <Label Text="hinta/day" VerticalOptions="Center" />
-                    <Label Text="+ alv" VerticalOptions="Center" Margin="5,0,0,0" />
+                    <Label Text="Mökin hinta/viikko" x:Name="priceLabel" VerticalOptions="Center" />
                 </StackLayout>
 
-                <Label Grid.Row="6" Text="hinta yhteensä euroa" Margin="10"/>
+                <Label Grid.Row="6" Text="Mökin henkilömäärä" x:Name="capacityLabel" Margin="10"/>
+
+                <!-- Large Textbox -->
+                <Label Grid.Row="7" Margin="10"
+                    Text="Mökin Kuvaus" x:Name="amenitiesLabel"
+                    LineBreakMode="WordWrap"
+                    MaxLines="10" MaximumWidthRequest="500"/>
 
                 <!-- Buttons -->
-                <Button Grid.Row="7" Grid.Column="0" Text="Jatka varaukseen" Margin="10" MaximumWidthRequest="150" HorizontalOptions="Start" Clicked="JatkaVaraukseenClicked"/>
+                <Button Grid.Row="8" Grid.Column="0" Text="Jatka varaukseen" Margin="10" MaximumWidthRequest="150" HorizontalOptions="Start" Clicked="JatkaVaraukseenClicked"/>
 
             </Grid>
 
@@ -117,7 +121,7 @@
             </ListView>
 
         </Grid>
-        
+
     </ScrollView>
-    
+
 </ContentPage>
