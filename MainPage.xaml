@@ -67,6 +67,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -96,6 +97,7 @@
 
                 <!-- Buttons -->
                 <Button Grid.Row="7" Grid.Column="0" Text="Varaukseen" Margin="10" MaximumWidthRequest="150" HorizontalOptions="Start"/>
+                
 
             </Grid>
 

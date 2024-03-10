@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34221.43
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "booking_VillageNewbies", "booking_VillageNewbies.csproj", "{F8521A72-616E-4A38-AF9A-B5E3420B2DCF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "booking_VillageNewbies", "booking_VillageNewbies.csproj", "{F8521A72-616E-4A38-AF9A-B5E3420B2DCF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MokkiLisaus", "..\MokkiLisaus\MokkiLisaus.csproj", "{82DA1E64-41BA-4025-A6D7-DC8A30D6A90D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,6 +19,12 @@ Global
 		{F8521A72-616E-4A38-AF9A-B5E3420B2DCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F8521A72-616E-4A38-AF9A-B5E3420B2DCF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F8521A72-616E-4A38-AF9A-B5E3420B2DCF}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{82DA1E64-41BA-4025-A6D7-DC8A30D6A90D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82DA1E64-41BA-4025-A6D7-DC8A30D6A90D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82DA1E64-41BA-4025-A6D7-DC8A30D6A90D}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{82DA1E64-41BA-4025-A6D7-DC8A30D6A90D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82DA1E64-41BA-4025-A6D7-DC8A30D6A90D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82DA1E64-41BA-4025-A6D7-DC8A30D6A90D}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

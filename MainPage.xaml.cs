@@ -4,7 +4,6 @@ namespace booking_VillageNewbies
 {
     public partial class MainPage : ContentPage
     {
-
         public class CheckBoxItem
         {
             public bool IsSelected { get; set; }
@@ -53,6 +52,8 @@ namespace booking_VillageNewbies
 
             checkBoxList.ItemsSource = CheckBoxItems;
         }
+       
+
 
 
     }
