@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="booking_VillageNewbies.Asiakashallinta"
+             Title="Asiakashallinta">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15" HorizontalOptions="Center">
+
+            <Label Text="Asiakkaan tiedot" FontSize="Large" HorizontalOptions="Center"/>
+
+            <Entry x:Name="postiNro" Placeholder="Postinumero"/>
+
+            <Entry x:Name="etuNimi" Placeholder="Etunimi"/>
+
+            <Entry x:Name="sukuNimi" Placeholder="Sukunimi"/>
+
+            <Entry x:Name="lahiOsoite" Placeholder="Lähisoite"/>
+
+            <Entry x:Name="eMail" Placeholder="Email"/>
+
+            <Entry x:Name="puhNumero" Placeholder="Puhelinnumero"/>
+
+            <Picker x:Name="varaukset" Title="Varaukset" WidthRequest="300"/>
+           
+            <Picker x:Name="laskut" Title="Laskut" WidthRequest="300"/>
+
+            <Button Text="Lisää asiakas"/>
+
+            <Picker x:Name="asiakasPicker" ItemsSource="{Binding AsiakasNimet}" WidthRequest="300"/>
+
+            <Button Text="Poista asiakas"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

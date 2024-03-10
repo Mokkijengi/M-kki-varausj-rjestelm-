@@ -3,22 +3,19 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="booking_VillageNewbies.Hallinta"
              Title="Hallinta">
-    <ScrollView>
+    
+    <VerticalStackLayout>
+        <Button Text="Mökit" FontSize="Large" HeightRequest="100" ImageSource="mokki.png" ContentLayout="Right,10"
+       Clicked="Mokit_Clicked" ></Button>
+        <Button Text="Palvelut" FontSize="Large" HeightRequest="100" ImageSource="palvelut.png" ContentLayout="Right,10"
+       Clicked="Palvelut_Clicked"   ></Button>
+        <Button Text="Alueet" FontSize="Large" HeightRequest="100" ImageSource="alue.png" ContentLayout="Right,10"
+       Clicked="Alueet_Clicked"></Button>
+        <Button Text="Asiakkaat" FontSize="Large" HeightRequest="100" ImageSource="asiakas.png" ContentLayout="Right,10"
+       Clicked="Asiakkaat_Clicked"></Button>
+        <Button Text="Varaukset" FontSize="Large" HeightRequest="100" ImageSource="varaus.png" ContentLayout="Right,10"
+       Clicked="Varaukset_Clicked"></Button>
+    </VerticalStackLayout>
 
-        <VerticalStackLayout>
-            <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-
-            <Entry x:Name="nameEntry" Placeholder="Name" />
-            <Button  Text="Lisää mökki" Margin="10"  Clicked="lisaa_mokki_clicked"/>
-            <Button  Text="Tuo tietoja" Margin="10"  Clicked="tuo_tietoja_clicked"/>
-            
-            
-
-
-        </VerticalStackLayout>
-
-    </ScrollView>
+   
 </ContentPage>
