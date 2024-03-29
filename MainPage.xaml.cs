@@ -22,7 +22,6 @@ namespace booking_VillageNewbies
             InitializeComponent();
 
 
-
             // Initialize the ObservableCollection with fake cabin names
             CabinNames = new ObservableCollection<string>();
 
@@ -268,7 +267,15 @@ namespace booking_VillageNewbies
 
         private async void JatkaVaraukseenClicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new Varausprosessi());
+            if (aluePicker.SelectedIndex != -1)
+            {
+                string selectedAlue = AlueList[aluePicker.SelectedIndex];
+                await Navigation.PushAsync(new Varausprosessi(selectedAlue));
+            }
+            else
+            {
+                await DisplayAlert("Virhe", "Valitse alue ensin", "OK");
+            }
         }
 
 

@@ -9,6 +9,11 @@ namespace booking_VillageNewbies;
 
 public partial class Varausprosessi : ContentPage
 {
+
+    //alue tuodaan tällä muuttujalla mainpagelta
+    //private string selectedAlue;
+    public string selectedAlue { get; set; }
+
     // Define the file path as a class-level variable
     private string pdfFilePath;
 
@@ -38,9 +43,14 @@ public partial class Varausprosessi : ContentPage
         set { asiakkaat = value; }
     }
 
-    public Varausprosessi()
+    public Varausprosessi(string selectedAlue)
     {
         InitializeComponent();
+
+        this.selectedAlue = selectedAlue;
+
+        // Set the page's context for bindings
+        this.BindingContext = this;
 
         // Initialize the mock collection of clients
         Asiakkaat = new ObservableCollection<Asiakas>

@@ -76,7 +76,7 @@
 
                 <!-- Alue and its value -->
                 <Label Grid.Row="1" Grid.Column="0" Text="Alue" VerticalOptions="Center" />
-                <Label Grid.Row="1" Grid.Column="1" Text="[Area Name]" VerticalOptions="Center" />
+                <Label Grid.Row="1" Grid.Column="1" Text="{Binding selectedAlue}" VerticalOptions="Center" />
 
                 <!-- Mökki and its value -->
                 <Label Grid.Row="2" Grid.Column="0" Text="Mökki" VerticalOptions="Center" />
