@@ -265,16 +265,41 @@ namespace booking_VillageNewbies
             }
         }
 
+
+        //viedään valitut tiedot varausprosessiin
         private async void JatkaVaraukseenClicked(object sender, EventArgs e)
         {
-            if (aluePicker.SelectedIndex != -1)
+            if (alkuPvm.Date < loppuPvm.Date)
             {
-                string selectedAlue = AlueList[aluePicker.SelectedIndex];
-                await Navigation.PushAsync(new Varausprosessi(selectedAlue));
+                if (aluePicker.SelectedIndex != -1 && cabinListPicker.SelectedIndex != -1)
+                {
+                    DateTime alkuPvmDate = alkuPvm.Date;
+                    DateTime loppuPvmDate = loppuPvm.Date;
+
+                    string selectedAlue = AlueList[aluePicker.SelectedIndex];
+                    string selectedMokki = CabinNames[cabinListPicker.SelectedIndex];
+
+                    //pass checkbox items to nxt page
+                    List<string> selectedServices = new List<string>();
+                    foreach (CheckBoxItem item in CheckBoxItems)
+                    {
+                        if (item.IsSelected)
+                        {
+                            selectedServices.Add(item.Label);
+                        }
+                    }
+                    string selectedLisapalvelut = string.Join(",", selectedServices);
+
+                    await Navigation.PushAsync(new Varausprosessi(selectedAlue, selectedMokki, alkuPvmDate, loppuPvmDate, selectedLisapalvelut));
+                }
+                else
+                {
+                    await DisplayAlert("Virhe", "Valitse alue ja mökki ensin", "OK");
+                }
             }
             else
             {
-                await DisplayAlert("Virhe", "Valitse alue ensin", "OK");
+                await DisplayAlert("Virhe", "Loppupäivämäärän tulee olla alkupäivämäärän jälkeen", "OK");
             }
         }
 

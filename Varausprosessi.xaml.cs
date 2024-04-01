@@ -10,9 +10,15 @@ namespace booking_VillageNewbies;
 public partial class Varausprosessi : ContentPage
 {
 
-    //alue tuodaan tällä muuttujalla mainpagelta
-    //private string selectedAlue;
+    //varaustiedot tuodaan näillä muuttujalla mainpagelta
+    public DateTime alkuPvmDate { get; set; }
+    public DateTime loppuPvmDate { get; set; }
     public string selectedAlue { get; set; }
+    public string selectedMokki { get; set; }
+
+    //selected services from mainpage:
+    public string selectedLisapalvelut { get; set; }
+    public ObservableCollection<string> lisapalveluLista { get; set; }
 
     // Define the file path as a class-level variable
     private string pdfFilePath;
@@ -43,14 +49,22 @@ public partial class Varausprosessi : ContentPage
         set { asiakkaat = value; }
     }
 
-    public Varausprosessi(string selectedAlue)
+    public Varausprosessi(string selectedAlue, string selectedMokki, DateTime alkuPvmDate, DateTime loppuPvmDate, string selectedLisapalvelut)
     {
         InitializeComponent();
 
+        this.alkuPvmDate = alkuPvmDate;
+        this.loppuPvmDate = loppuPvmDate;
         this.selectedAlue = selectedAlue;
+        this.selectedMokki = selectedMokki;
+        //CheckBoxItems = checkBoxItems;
 
-        // Set the page's context for bindings
-        this.BindingContext = this;
+        //selected lisapalvelut from mainpage, decomposed to a list for easier viewing, used in varausprosessi.xaml Lisäpalvelut
+        this.selectedLisapalvelut = selectedLisapalvelut;
+        lisapalveluLista = new ObservableCollection<string>(selectedLisapalvelut.Split(','));
+
+        // Set the page's context for bindings VOI POISTAA? PITÄÄ OLLA VARAUSPROSESSIN LOPUSSA MÄÄRITTELYJEN JÄLKEEN
+        //this.BindingContext = this;
 
         // Initialize the mock collection of clients
         Asiakkaat = new ObservableCollection<Asiakas>
@@ -69,7 +83,8 @@ public partial class Varausprosessi : ContentPage
         };
 
         // Set the ObservableCollection as the ListView's ItemSource
-        BindingContext = this;
+        // Set the page's context for bindings
+        this.BindingContext = this;
     }
 
     // Event handler for the SearchBar's TextChanged event
@@ -271,25 +286,37 @@ public partial class Varausprosessi : ContentPage
         gfx.DrawString($"Invoice Number: INV-{timestamp}", defaultFont, textBrush, new XPoint(30, 310));
         gfx.DrawString($"Date: {DateTime.Now.ToShortDateString()}", defaultFont, textBrush, new XPoint(30, 330));
 
-        // Draw items table header
-        gfx.DrawString("Item", headingFont, headingBrush, new XPoint(30, 370));
-        gfx.DrawString("Quantity", headingFont, headingBrush, new XPoint(200, 370));
-        gfx.DrawString("Price", headingFont, headingBrush, new XPoint(300, 370));
-        gfx.DrawString("Total", headingFont, headingBrush, new XPoint(400, 370));
+        // Draw booking information - replacing items with booking-specific details
+        gfx.DrawString("Cabin Name:", headingFont, headingBrush, new XPoint(30, 370));
+        gfx.DrawString(selectedMokki, defaultFont, textBrush, new XPoint(200, 370));
 
-        // Draw items table
-        int startY = 400;
-        for (int i = 0; i < items.Length; i++)
+        gfx.DrawString("Area:", headingFont, headingBrush, new XPoint(30, 390));
+        gfx.DrawString(selectedAlue, defaultFont, textBrush, new XPoint(200, 390));
+
+        gfx.DrawString("Booking Dates:", headingFont, headingBrush, new XPoint(30, 410));
+        gfx.DrawString($"{alkuPvmDate.ToShortDateString()} to {loppuPvmDate.ToShortDateString()}", defaultFont, textBrush, new XPoint(200, 410));
+
+        // Additional Services header
+        gfx.DrawString("Additional Services:", headingFont, headingBrush, new XPoint(30, 450));
+        int yPos = 470; // Initial Y position for additional services
+
+        // Check if any additional services were selected
+        if (lisapalveluLista != null && lisapalveluLista.Count > 0)
         {
-            int yPos = startY + i * 20;
-            gfx.DrawString(items[i], defaultFont, textBrush, new XPoint(30, yPos));
-            gfx.DrawString(quantities[i].ToString(), defaultFont, textBrush, new XPoint(200, yPos));
-            gfx.DrawString(prices[i].ToString("C"), defaultFont, textBrush, new XPoint(300, yPos));
-            gfx.DrawString((quantities[i] * prices[i]).ToString("C"), defaultFont, textBrush, new XPoint(400, yPos));
+            foreach (var service in lisapalveluLista)
+            {
+                gfx.DrawString(service, defaultFont, textBrush, new XPoint(50, yPos));
+                yPos += 20; // Move down for next service
+            }
+        }
+        else
+        {
+            gfx.DrawString("None", defaultFont, textBrush, new XPoint(50, yPos));
         }
 
+
         // Draw total
-        gfx.DrawString($"Total: {total.ToString("C")}", headingFont, headingBrush, new XPoint(200, startY + items.Length * 20 + 20));
+        //gfx.DrawString($"Total: {total.ToString("C")}", headingFont, headingBrush, new XPoint(200, startY + items.Length * 20 + 20));
 
 
 
