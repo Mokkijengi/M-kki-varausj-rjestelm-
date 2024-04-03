@@ -22,7 +22,6 @@ namespace booking_VillageNewbies
             InitializeComponent();
 
 
-
             // Initialize the ObservableCollection with fake cabin names
             CabinNames = new ObservableCollection<string>();
 
@@ -71,7 +70,7 @@ namespace booking_VillageNewbies
             string server = "localhost";
             string database = "vn";
             string username = "root";
-            string password = "Password";
+            string password = "VN_password";
             string constring = "SERVER=" + server + ";" + "DATABASE=" + database + ";" +
                 "UID=" + username + ";" + "PASSWORD=" + password + ";";
 
@@ -119,7 +118,7 @@ namespace booking_VillageNewbies
             string server = "localhost";
             string database = "vn";
             string username = "root";
-            string password = "Password";
+            string password = "VN_password";
             string constring = "SERVER=" + server + ";" + "DATABASE=" + database + ";" +
                 "UID=" + username + ";" + "PASSWORD=" + password + ";";
 
@@ -172,7 +171,7 @@ namespace booking_VillageNewbies
             string server = "localhost";
             string database = "vn";
             string username = "root";
-            string password = "Password";
+            string password = "VN_password";
             string constring = "SERVER=" + server + ";" + "DATABASE=" + database + ";" +
                                "UID=" + username + ";" + "PASSWORD=" + password + ";";
 
@@ -228,7 +227,7 @@ namespace booking_VillageNewbies
             string server = "localhost";
             string database = "vn";
             string username = "root";
-            string password = "Password";
+            string password = "VN_password";
             string constring = "SERVER=" + server + ";" + "DATABASE=" + database + ";" +
                                "UID=" + username + ";" + "PASSWORD=" + password + ";";
 
@@ -266,9 +265,42 @@ namespace booking_VillageNewbies
             }
         }
 
+
+        //viedään valitut tiedot varausprosessiin
         private async void JatkaVaraukseenClicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new Varausprosessi());
+            if (alkuPvm.Date < loppuPvm.Date)
+            {
+                if (aluePicker.SelectedIndex != -1 && cabinListPicker.SelectedIndex != -1)
+                {
+                    DateTime alkuPvmDate = alkuPvm.Date;
+                    DateTime loppuPvmDate = loppuPvm.Date;
+
+                    string selectedAlue = AlueList[aluePicker.SelectedIndex];
+                    string selectedMokki = CabinNames[cabinListPicker.SelectedIndex];
+
+                    //pass checkbox items to nxt page
+                    List<string> selectedServices = new List<string>();
+                    foreach (CheckBoxItem item in CheckBoxItems)
+                    {
+                        if (item.IsSelected)
+                        {
+                            selectedServices.Add(item.Label);
+                        }
+                    }
+                    string selectedLisapalvelut = string.Join(",", selectedServices);
+
+                    await Navigation.PushAsync(new Varausprosessi(selectedAlue, selectedMokki, alkuPvmDate, loppuPvmDate, selectedLisapalvelut));
+                }
+                else
+                {
+                    await DisplayAlert("Virhe", "Valitse alue ja mökki ensin", "OK");
+                }
+            }
+            else
+            {
+                await DisplayAlert("Virhe", "Loppupäivämäärän tulee olla alkupäivämäärän jälkeen", "OK");
+            }
         }
 
 

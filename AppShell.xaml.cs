@@ -6,6 +6,11 @@
         {
             InitializeComponent();
         }
+
+        private async void OnLogoTapped(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new MainPage());
+        }
         private async void OnHallintoClicked(object sender, EventArgs e)
         {
             await Shell.Current.GoToAsync($"///{nameof(Hallinta)}");

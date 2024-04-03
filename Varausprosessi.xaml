@@ -70,33 +70,49 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
                 <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Detailed Information" VerticalOptions="Center" FontAttributes="Bold" FontSize="Medium" Margin="0,0,0,20"/>
 
                 <!-- Alue and its value -->
                 <Label Grid.Row="1" Grid.Column="0" Text="Alue" VerticalOptions="Center" />
-                <Label Grid.Row="1" Grid.Column="1" Text="[Area Name]" VerticalOptions="Center" />
+                <Label Grid.Row="1" Grid.Column="1" Text="{Binding selectedAlue}" VerticalOptions="Center" />
 
                 <!-- Mökki and its value -->
                 <Label Grid.Row="2" Grid.Column="0" Text="Mökki" VerticalOptions="Center" />
-                <Label Grid.Row="2" Grid.Column="1" Text="[Cabin Name]" VerticalOptions="Center" />
+                <Label Grid.Row="2" Grid.Column="1" Text="{Binding selectedMokki}" VerticalOptions="Center" />
 
                 <!-- Tulo and its value -->
                 <Label Grid.Row="3" Grid.Column="0" Text="Saapuminen" VerticalOptions="Center" />
-                <Label Grid.Row="3" Grid.Column="1" Text="[Start Date]" VerticalOptions="Center" />
+                <Label Grid.Row="3" Grid.Column="1" Text="{Binding alkuPvmDate, StringFormat='{0:dd.MM.yyyy}'}" VerticalOptions="Center" />
 
                 <!-- Lähtö and its value -->
                 <Label Grid.Row="4" Grid.Column="0" Text="Lähtö" VerticalOptions="Center" />
-                <Label Grid.Row="4" Grid.Column="1" Text="[End Date]" VerticalOptions="Center" />
+                <Label Grid.Row="4" Grid.Column="1" Text="{Binding loppuPvmDate, StringFormat='{0:dd.MM.yyyy}'}" VerticalOptions="Center" />
+
+                <!-- Varauksen lisäpalvelut -->
+                <Label Grid.Row="5" Grid.Column="0" Text="Lisäpalvelut" VerticalOptions="Start" />
+                <ListView Grid.Row="5" Grid.Column="1" ItemsSource="{Binding lisapalveluLista}" VerticalOptions="Center">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout VerticalOptions="Start">
+                                    <Label Text="{Binding}" VerticalTextAlignment="Start" />
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
 
                 <!-- Hinta and its value -->
-                <Label Grid.Row="5" Grid.Column="0" Text="Hinta ajalta" VerticalOptions="Center" />
-                <Label Grid.Row="5" Grid.Column="1" Text="[Price]" VerticalOptions="Center" />
+                <Label Grid.Row="6" Grid.Column="0" Text="Hinta ajalta" VerticalOptions="Center" />
+                <Label Grid.Row="6" Grid.Column="1" Text="[Price]" VerticalOptions="Center" />
                 
                 <!-- Asiakas and its value -->
-                <Label Grid.Row="6" Grid.Column="0" Text="Asiakas" VerticalOptions="Center" />
-                <Label Grid.Row="6" Grid.Column="1" Text="[Client ID] [Name]" VerticalOptions="Center" />
+                <Label Grid.Row="7" Grid.Column="0" Text="Asiakas" VerticalOptions="Center" />
+                <Label Grid.Row="7" Grid.Column="1" Text="[Client ID] [Name]" VerticalOptions="Center" />
 
             </Grid>
 

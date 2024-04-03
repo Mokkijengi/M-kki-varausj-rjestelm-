@@ -9,7 +9,14 @@
     <!-- Define the global Shell.TitleView for the site-wide header -->
     <Shell.TitleView>
         <FlexLayout  BackgroundColor="{StaticResource VN_AccentColor}" AlignItems="Stretch"  Direction="Row" JustifyContent="SpaceBetween">
-            <Image Source="vnlogoside.png" HeightRequest="48"/>
+            <Image Source="vnlogoside.png" HeightRequest="48">
+
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnLogoTapped" />
+                </Image.GestureRecognizers>
+
+            </Image>
+            
             <StackLayout Orientation="Horizontal">
                 <Button Text="Varaus" Clicked="OnVarausClicked" WidthRequest="80"/>
                 <Button Text="Hallinta" Clicked="OnHallintoClicked" WidthRequest="80"/>
