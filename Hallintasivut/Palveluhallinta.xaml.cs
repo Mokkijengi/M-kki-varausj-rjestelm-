@@ -1,73 +1,99 @@
 using Microsoft.Maui.Controls;
 using MySql.Data.MySqlClient;
 using System.Collections.ObjectModel;
+using System.Data;
 
 namespace booking_VillageNewbies
 {
     public partial class Palveluhallinta : ContentPage
     {
-        //Collection pit‰‰ kirjaa palveluiden nimist‰
+        //Collection pit‰‰ kirjaa palveluiden nimist‰ ja alueista, ne p‰ivittyv‰t UI:hin kun niiden sis‰ltˆ muuttuu
         public ObservableCollection<string> PalveluNimet { get; set; } = new ObservableCollection<string>();
+        public ObservableCollection<Alue> Alueet { get; set; } = new ObservableCollection<Alue>();
+
+        //Muuttuja valitulle alueelle
+        public Alue ValittuAlue { get; set; }
+
+
 
         public Palveluhallinta()
         {
             InitializeComponent();
+            BindingContext = this;//Binding sitoo tiedot XAML n‰kym‰‰n
+
+            Task.Run(async () => await InitializeDataAsync());
+
             palveluPicker.ItemsSource = PalveluNimet;//Laitetaan palveluiden nimet pickeriin
             HaePalveluNimet();//Metodi hakee nimet tietokannasta
-            BindingContext = this;//Binding sitoo tiedot XAML n‰kym‰‰n
+
+        }
+
+        private async Task InitializeDataAsync()
+        {
+           await HaeAlueNimet();//Haetaan nimet ja p‰ivitet‰‰n ne Alueet-kokoelmaan
+        }
+
+        //Tapahtumank‰sittelij‰ aluevalinnan muutokselle
+        private void AluePicker_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (sender is Picker picker && picker.SelectedItem != null)
+            {
+                ValittuAlue = picker.SelectedItem as Alue;//Asetetaan valitun alueen ValittuAlue-muuttujaan
+            }
         }
 
 
+        //Uuden palvelun lis‰‰miselle luotu tapahtumank‰sittelij‰
         private async void LisaaPalvelu_Clicked(object sender, EventArgs e)
         {
             await LisaaPalveluAsync();//Metodi lis‰‰ uuden palvelun
         }
 
+
+        
         public async Task LisaaPalveluAsync()
         {
             string constring = $"SERVER=localhost;DATABASE=vn;UID=root;PASSWORD=Salasana-1212;";
+            if (ValittuAlue == null)
+            {
+                await DisplayAlert("Virhe", "Aluetta ei ole valittu.", "OK");
+                return;
+            }
 
             try
             {
                 using (MySqlConnection conn = new MySqlConnection(constring))
                 {
                     await conn.OpenAsync();
-
-                    //SQL-lause uuden tiedon lis‰‰miseen
                     string insertQuery = @"INSERT INTO palvelu (alue_id, nimi, kuvaus, hinta, alv) VALUES (@alue_id, @nimi, @kuvaus, @hinta, @alv); SELECT LAST_INSERT_ID();";
-                    //MySQLCommand-luokkaa k‰ytet‰‰n lauseen suorittamiseen
+
                     using (MySqlCommand cmd = new MySqlCommand(insertQuery, conn))
                     {
-                        //Parametrit SQL`-lauseeseen jotka poimittu k‰yttˆliittym‰st‰
-                        cmd.Parameters.AddWithValue("@alue_id", alueID.Text);
+                        cmd.Parameters.AddWithValue("@alue_id", ValittuAlue.AlueId);
                         cmd.Parameters.AddWithValue("@nimi", palvelunNimi.Text);
                         cmd.Parameters.AddWithValue("@kuvaus", palvelunKuvaus.Text);
                         cmd.Parameters.AddWithValue("@hinta", double.TryParse(hinta.Text, out double hintaValue) ? hintaValue : 0);
                         cmd.Parameters.AddWithValue("@alv", double.TryParse(alv.Text, out double alvValue) ? alvValue : 0);
-                        
-                        //Suoritetaan SQL-lause ja palautetaan viimeisen‰ lis‰tyn rivin ID
+
                         object result = await cmd.ExecuteScalarAsync();
                         if (result != null)
                         {
-                            int newPalveluId = Convert.ToInt32(result);//Muunnetaan kokonaisluvuksi ja otetaan uusi ID talteen
-                            await NaytaPalvelunTiedot(newPalveluId); // N‰ytt‰‰ lis‰tyn palvelun tiedot
-                            await HaePalveluNimet(); // P‰ivitet‰‰n palveluiden nimet listaan
+                            int newPalveluId = Convert.ToInt32(result);
+                            await NaytaPalvelunTiedot(newPalveluId);
+                            await HaePalveluNimet();
                         }
                         else
                         {
-                            //Jos lis‰ys ei onnistu annetaan herja
                             await DisplayAlert("Virhe", "Palvelun lis‰‰minen ep‰onnistui.", "OK");
                         }
                     }
                 }
             }
             catch (MySqlException ex)
-            {   
-                //Jos tietokantayhteydess‰ tapahtuu virhe kerrotaan myˆs siit‰
+            {
                 await DisplayAlert("Virhe", $"Tietokantaan yhdist‰minen ep‰onnistui: {ex.Message}", "OK");
             }
         }
-
 
         //Palvelun poistamiseen tapahtuman k‰sittelij‰
         private async void PoistaPalvelu_Clicked(object sender, EventArgs e)
@@ -76,7 +102,7 @@ namespace booking_VillageNewbies
             {
                 string valittuPalveluNimi = palveluPicker.SelectedItem.ToString();//Valitun palvelun nimell‰ kutsutaan poistometodia
                 await PoistaValittuPalvelu(valittuPalveluNimi);
-                HaePalveluNimet(); // P‰ivitet‰‰n palveluiden nimet poiston j‰lkeen
+                await HaePalveluNimet(); // P‰ivitet‰‰n palveluiden nimet poiston j‰lkeen
             }
             else
             {
@@ -110,7 +136,7 @@ namespace booking_VillageNewbies
                         {
                             //Onnistuneesta poistosta annetaan ilmoitus
                             await DisplayAlert("Onnistui", $"Palvelu '{palvelunNimi}' poistettu onnistuneesti.", "OK");
-                            HaePalveluNimet(); // P‰ivitet‰‰n palveluiden nimet poiston j‰lkeen
+                            await HaePalveluNimet(); // P‰ivitet‰‰n palveluiden nimet poiston j‰lkeen
                         }
                         else
                         {
@@ -161,8 +187,54 @@ namespace booking_VillageNewbies
             }
 
             // Ilmoittaa, ett‰ PalveluNimet-ominaisuuden arvo on p‰ivitetty, jotta k‰yttˆliittym‰ voi p‰ivitty‰
-            OnPropertyChanged(nameof(PalveluNimet));
+           OnPropertyChanged(nameof(PalveluNimet));
         }
+
+
+
+
+
+        private async Task HaeAlueNimet()
+        {
+            string constring = $"SERVER=localhost;DATABASE=vn;UID=root;PASSWORD=Salasana-1212;";
+            Alueet.Clear(); // Tyhjenn‰ lista ennen uuden datan hakemista
+
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(constring))
+                {
+                    await conn.OpenAsync();
+                    string selectQuery = @"SELECT alue_id, nimi FROM alue ORDER BY nimi ASC";
+
+                    using (MySqlCommand cmd = new MySqlCommand(selectQuery, conn))
+                    {
+                        using (var reader = await cmd.ExecuteReaderAsync())
+                        {
+                            while (await reader.ReadAsync())
+                            {
+                                Alueet.Add(new Alue
+                                {
+                                    AlueId = reader.GetInt32("alue_id"),
+                                    Nimi = reader.GetString("nimi")
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                await DisplayAlert("Tietokantavirhe", $"Virhe yhdistett‰ess‰ tietokantaan: {ex.Message}", "OK");
+            }
+
+            // Ilmoittaa, ett‰ Alueet-ominaisuuden arvo on p‰ivitetty, jotta k‰yttˆliittym‰ voi p‰ivitty‰
+            OnPropertyChanged(nameof(Alueet));
+        }
+
+
+
+
+
 
         public async Task NaytaPalvelunTiedot(int palveluId)
         {

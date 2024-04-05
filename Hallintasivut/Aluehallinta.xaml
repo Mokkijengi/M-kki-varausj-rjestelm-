@@ -11,9 +11,6 @@
 
             <Entry x:Name="alueenNimi" Placeholder="Alueen nimi"/>
 
-            <Picker x:Name="alueenMokit" Title="Mökit" WidthRequest="300"/>
-
-
             <Button Text="Lisää alue" Clicked="LisaaAlue_Clicked"/>
 
             <Picker x:Name="aluePicker" ItemsSource="{Binding AlueNimet}" Title="Valitse alue" WidthRequest="300"/>

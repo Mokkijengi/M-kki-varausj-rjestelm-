@@ -11,7 +11,12 @@
 
             <Entry x:Name="palvelunNimi" Placeholder="Palvelun nimi"/>
 
-            <Entry x:Name="alueID" Placeholder="Alue ID"/>
+            <Picker x:Name="aluePicker" Title="Valitse alue"
+        ItemsSource="{Binding Alueet}"
+        ItemDisplayBinding="{Binding Nimi}"
+        SelectedItem="{Binding ValittuAlue, Mode=TwoWay}"
+        BackgroundColor="{StaticResource VN_PrimaryColor}"  
+        WidthRequest="300"/>
 
             <Entry x:Name="hinta" Placeholder="Hinta"/>
 
@@ -21,7 +26,7 @@
 
             <Button Text="Lisää palvelu" Clicked="LisaaPalvelu_Clicked"/>
 
-            <Picker x:Name="palveluPicker" ItemsSource="{Binding PalveluNimet}" WidthRequest="300"/>
+            <Picker x:Name="palveluPicker" BackgroundColor="{StaticResource VN_PrimaryColor}" ItemsSource="{Binding PalveluNimet}" WidthRequest="300"/>
 
             <Button Text="Poista palvelu" Clicked="PoistaPalvelu_Clicked"/>
 
