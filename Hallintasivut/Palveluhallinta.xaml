@@ -9,7 +9,7 @@
 
             <Label Text="Palvelun tiedot" FontSize="Large" HorizontalOptions="Center"/>
 
-            <Entry x:Name="palvelunNimi" Placeholder="Palvelun nimi"/>
+            <Entry x:Name="palvelunNimiEntry" Placeholder="Palvelun nimi"/>
 
             <Picker x:Name="aluePicker" Title="Valitse alue"
         ItemsSource="{Binding Alueet}"
@@ -18,17 +18,26 @@
         BackgroundColor="{StaticResource VN_PrimaryColor}"  
         WidthRequest="300"/>
 
-            <Entry x:Name="hinta" Placeholder="Hinta"/>
+            <Entry x:Name="hintaEntry" Placeholder="Hinta"/>
 
-            <Entry x:Name="alv" Placeholder="alv%"/>
+            <Entry x:Name="alvEntry" Placeholder="alv%"/>
 
-            <Editor x:Name="palvelunKuvaus" Placeholder="Palvelun kuvaus" AutoSize="TextChanges"/>
+            <Editor x:Name="palvelunKuvausEntry" Placeholder="Palvelun kuvaus" AutoSize="TextChanges" WidthRequest="300"/>
 
             <Button Text="Lisää palvelu" Clicked="LisaaPalvelu_Clicked"/>
 
-            <Picker x:Name="palveluPicker" BackgroundColor="{StaticResource VN_PrimaryColor}" ItemsSource="{Binding PalveluNimet}" WidthRequest="300"/>
+            <Picker x:Name="palveluPicker"
+        BackgroundColor="{StaticResource VN_PrimaryColor}"
+        ItemsSource="{Binding PalveluTiedot}"
+        ItemDisplayBinding="{Binding NäyttöNimi}"
+        WidthRequest="300"
+        SelectedIndexChanged="PalveluPicker_SelectedIndexChanged"/>
+
+            <Button Text="Tallenna muutokset" Clicked="TallennaMuutokset_Clicked"/>
+
 
             <Button Text="Poista palvelu" Clicked="PoistaPalvelu_Clicked"/>
+
 
         </VerticalStackLayout>
     </ScrollView>
