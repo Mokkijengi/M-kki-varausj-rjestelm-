@@ -9,27 +9,33 @@
 
             <Label Text="Asiakkaan tiedot" FontSize="Large" HorizontalOptions="Center"/>
 
-            <Entry x:Name="postiNro" Placeholder="Postinumero"/>
-
             <Entry x:Name="etuNimi" Placeholder="Etunimi"/>
 
             <Entry x:Name="sukuNimi" Placeholder="Sukunimi"/>
 
-            <Entry x:Name="lahiOsoite" Placeholder="Lähisoite"/>
+            <Entry x:Name="lahiOsoite" Placeholder="Lähiosoite ja postinumero"/>
 
             <Entry x:Name="eMail" Placeholder="Email"/>
 
             <Entry x:Name="puhNumero" Placeholder="Puhelinnumero"/>
 
             <Picker x:Name="varaukset" Title="Varaukset" WidthRequest="300"/>
-           
+
             <Picker x:Name="laskut" Title="Laskut" WidthRequest="300"/>
 
-            <Button Text="Lisää asiakas"/>
+            <Button Text="Lisää asiakas" Clicked="LisaaAsiakas_Clicked"/>
 
-            <Picker x:Name="asiakasPicker" ItemsSource="{Binding AsiakasNimet}" WidthRequest="300"/>
+            <Picker x:Name="asiakasPicker"
+        ItemsSource="{Binding AsiakasLista}"
+        ItemDisplayBinding="{Binding AsiakkaanNimi}"
+        SelectedItem="{Binding ValittuAsiakas}"
+        Title="Valitse asiakas"
+        WidthRequest="300"
+        SelectedIndexChanged="asiakasPicker_SelectedIndexChanged"/>
 
-            <Button Text="Poista asiakas"/>
+            <Button Text="Tallenna muutokset" Clicked="TallennaMuutokset_Clicked"></Button>            
+
+            <Button Text="Poista asiakas" Clicked="PoistaAsiakas_Clicked"/>
 
         </VerticalStackLayout>
     </ScrollView>

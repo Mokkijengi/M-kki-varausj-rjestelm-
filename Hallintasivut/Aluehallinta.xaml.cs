@@ -23,7 +23,7 @@ namespace booking_VillageNewbies
             string server = "localhost";
             string database = "vn";
             string username = "root";
-            string password = "VN_password";
+            string password = "Salasana-1212";
             string constring = $"SERVER={server};DATABASE={database};UID={username};PASSWORD={password};";
 
             try
