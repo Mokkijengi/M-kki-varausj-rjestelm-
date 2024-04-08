@@ -8,27 +8,79 @@ namespace booking_VillageNewbies
 {
     public partial class Mokkihallinta : ContentPage
     {
-        public ObservableCollection<string> MokkiNames { get; set; }
+        public class Alue
+        {
+            public string Nimi { get; set; }
+            public int Alue_Id { get; set; }
+
+        }
+        public ObservableCollection<string> MokkiNames { get; set; } = new ObservableCollection<string>(); //LISTA KAIKISTA MÖKISTÄ HAETTU DATABASESTA
+        public ObservableCollection<Alue> alueList { get; set; } = new ObservableCollection<Alue>();
+
 
         public Mokkihallinta()
         {
 
             InitializeComponent();
-            MokkiNames = new ObservableCollection<string>(); //LISTA KAIKISTA MÖKISTÄ HAETTU DATABASESTA
-            // Call method to populate MokkiNames
+
             FetchMokkiNames();
+            FetchAreasFromDatabase();
+
             BindingContext = this; // Set the BindingContext
 
         }
 
-        
-        public async Task LisaaMokkiAsync()   
+        private async void FetchAreasFromDatabase()
+        {
+            string server = "localhost";
+            string database = "vn";
+            string username = "root";
+            string password = "password";
+            string constring = "SERVER=" + server + ";" + "DATABASE=" + database + ";" +
+                "UID=" + username + ";" + "PASSWORD=" + password + ";";
+
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(constring))
+                {
+                    await conn.OpenAsync();
+                    Console.WriteLine("Connection to the database successful.");
+
+                    string selectQuery = "SELECT nimi,alue_id FROM vn.alue";
+
+
+                    using (MySqlCommand cmd = new MySqlCommand(selectQuery, conn))
+                    {
+                        using (MySqlDataReader reader = (MySqlDataReader)await cmd.ExecuteReaderAsync())
+                        {
+                            while (await reader.ReadAsync())
+                            {
+                                string alueName = reader.GetString("nimi");
+                                int alueId = reader.GetInt32("alue_id"); // Fetch alue_id from the database
+                                alueList.Add(new Alue { Nimi = alueName, Alue_Id = alueId }); // Populate Alue_Id property
+                            }
+                        }
+                    }
+                }
+
+                // Set AlueList as the ItemsSource for aluePicker
+                aluePicker.ItemsSource = alueList.Select(a => a.Nimi).ToList();
+            }
+            catch (MySqlException ex)
+            {
+                await DisplayAlert("Error", "Error connecting to the database: " + ex.Message, "OK");
+                Console.WriteLine("Error connecting to the database: " + ex.Message);
+            }
+        }
+
+
+        public async Task LisaaMokkiAsync()
         {
             int newMokkiId = -1; //-1 KOSKA DATABASE EI VARMASTI SILLOIN SEKOITA MÖKKI ID:TA
             string server = "localhost";
             string database = "vn";
             string username = "root";
-            string password = "VN_password";
+            string password = "password";
             string constring = "SERVER=" + server + ";" + "DATABASE=" + database + ";" +
                 "UID=" + username + ";" + "PASSWORD=" + password + ";";
 
@@ -40,12 +92,13 @@ namespace booking_VillageNewbies
                     Console.WriteLine("Connection to the database successful.");
 
                     // Retrieve values from UI elements
-                    string alue_id = alueID.Text;
+
                     string postinro = postiNro.Text;
                     string mokkinimi = mokinNimi.Text;
                     string katuosoite = katuOsoite.Text;
                     string hintaText = hinta.Text;
                     double hintaValue;
+                    int alue_id = alueList[aluePicker.SelectedIndex].Alue_Id;
 
                     if (!double.TryParse(hintaText, out hintaValue))
                     {
@@ -68,6 +121,7 @@ namespace booking_VillageNewbies
                     // Check if the postal code exists in the posti table
                     string checkPostiQuery = "SELECT COUNT(*) FROM posti WHERE postinro = @postinro";
                     int postiCount;
+
 
                     using (MySqlCommand checkPostiCmd = new MySqlCommand(checkPostiQuery, conn))
                     {
@@ -148,7 +202,7 @@ namespace booking_VillageNewbies
             string server = "localhost";
             string database = "vn";
             string username = "root";
-            string password = "Salasana-1212";
+            string password = "password";
             string constring = "SERVER=" + server + ";" + "DATABASE=" + database + ";" +
                 "UID=" + username + ";" + "PASSWORD=" + password + ";";
 
@@ -197,11 +251,11 @@ namespace booking_VillageNewbies
 
         private async Task FetchMokkiNames()
         {
-             MokkiNames.Clear(); // Clear existing items
+            MokkiNames.Clear(); // Clear existing items
             string server = "localhost";
             string database = "vn";
             string username = "root";
-            string password = "Salasana-1212";
+            string password = "password";
             string constring = "SERVER=" + server + ";" + "DATABASE=" + database + ";" +
                 "UID=" + username + ";" + "PASSWORD=" + password + ";";
 
@@ -240,7 +294,7 @@ namespace booking_VillageNewbies
             string server = "localhost";
             string database = "vn";
             string username = "root";
-            string password = "Salasana-1212";
+            string password = "password";
             string constring = "SERVER=" + server + ";" + "DATABASE=" + database + ";" +
                 "UID=" + username + ";" + "PASSWORD=" + password + ";";
 
@@ -261,8 +315,8 @@ namespace booking_VillageNewbies
                         if (rowsAffected > 0)
                         {
                             await DisplayAlert("Success", $"{selectedMokkiName} and associated records deleted successfully.", "OK");
-                         
-                               await FetchMokkiNames();
+
+                            await FetchMokkiNames();
                         }
                         else
                         {
@@ -279,8 +333,8 @@ namespace booking_VillageNewbies
         }
 
 
-        
-        
+
+
         private async void poistaMokki_Clicked(object sender, EventArgs e)
         {
             if (mokkiPicker.SelectedItem != null)
@@ -296,7 +350,5 @@ namespace booking_VillageNewbies
 
     }
 }
-
-
 
 

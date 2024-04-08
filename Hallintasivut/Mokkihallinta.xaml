@@ -6,8 +6,10 @@
 
 	<ScrollView>
 		<VerticalStackLayout Padding="20" Spacing="15" HorizontalOptions="Center">
+            
+            <Picker x:Name="aluePicker" ItemsSource="{Binding AlueNames}" WidthRequest="300"/>
 
-			<Label Text="Mökin tiedot" FontSize="Large" HorizontalOptions="Center"/>
+            <Label Text="Mökin tiedot" FontSize="Large" HorizontalOptions="Center"/>
 
 			<Entry x:Name="mokkiID" Placeholder="Mökin ID" WidthRequest="300"/>
 
