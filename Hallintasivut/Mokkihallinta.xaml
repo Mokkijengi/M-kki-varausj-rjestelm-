@@ -6,45 +6,91 @@
 
 	<ScrollView>
 		<VerticalStackLayout Padding="20" Spacing="15" HorizontalOptions="Center">
-            
-            <Picker x:Name="aluePicker" ItemsSource="{Binding AlueNames}" WidthRequest="300"/>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
 
-            <Label Text="Mökin tiedot" FontSize="Large" HorizontalOptions="Center"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
 
-			<Entry x:Name="mokkiID" Placeholder="Mökin ID" WidthRequest="300"/>
-
-			<Entry x:Name="alueID" Placeholder="Alue ID"/>
-
-			<Entry x:Name="postiNro" Placeholder="Postinumero"/>
-
-			<Entry x:Name="mokinNimi" Placeholder="Mökin nimi"/>
-
-			<Entry x:Name="katuOsoite" Placeholder="Katuosoite"/>
-
-			<Entry x:Name="hinta" Placeholder="Hinta"/>
-
-			<Editor x:Name="mokinKuvaus" Placeholder="Mökin kuvaus" AutoSize="TextChanges"/>
-
-			<Entry x:Name="henkiloMaara" Placeholder="Henkilömäärä"/>
-
-			<Entry x:Name="mokinVarustelu" Placeholder="Mökin varustelu"/>
-
-
-			<Button Text="Lisää mökki" Clicked="Lisaa_Mokki_Clicked"/>
-            
-            
-
-            <Picker x:Name="mokkiPicker" ItemsSource="{Binding MokkiNames}" WidthRequest="300"/>
+                </Grid.ColumnDefinitions>
 
 
-            <Button Text="Poista mökki" x:Name="poistaMokki" Clicked="poistaMokki_Clicked"/>
-
-			
-
-		
+             
 
 
-		</VerticalStackLayout>
+
+                <Label Grid.Column="0" Grid.Row="0" Text="Mökin tiedot" FontSize="Large" HorizontalOptions="Center"/>
+
+
+
+           
+
+                <Entry Grid.Column="0" Grid.Row="3"  x:Name="postiNro" Placeholder="Postinumero"/>
+
+                <Entry Grid.Column="0" Grid.Row="4"  x:Name="mokinNimi" Placeholder="Mökin nimi"/>
+
+                <Entry Grid.Column="0" Grid.Row="5"  x:Name="katuOsoite" Placeholder="Katuosoite"/>
+
+                <Entry Grid.Column="0" Grid.Row="6"  x:Name="hinta" Placeholder="Hinta"/>
+
+                <Editor Grid.Column="0" Grid.Row="7"  x:Name="mokinKuvaus" Placeholder="Mökin kuvaus" AutoSize="TextChanges"/>
+
+                <Entry  Grid.Column="0" Grid.Row="8" x:Name="henkiloMaara" Placeholder="Henkilömäärä"/>
+
+                <Entry  Grid.Column="0" Grid.Row="9" x:Name="mokinVarustelu" Placeholder="Mökin varustelu"/>
+                <Button Grid.Column="0" Grid.Row="10"  x:Name="clear_button" Text="Tyhjennä" Clicked="clear_button_Clicked"/>
+
+                <Button  Grid.Column="0" Grid.Row="11" Text="Lisää uusi mökki" Clicked="Lisaa_Mokki_Clicked"/>
+                
+                
+                
+                <Label  Grid.Column="1" Grid.Row="1" />
+
+
+                <Label Grid.Column="1" Grid.Row="2" Text="Valitse alue"  HorizontalOptions="Center"/>
+                                <Picker  Grid.Column="1" Grid.Row="3" x:Name="aluePicker" ItemsSource="{Binding Alueet}"
+                ItemDisplayBinding="{Binding Nimi}"
+                SelectedItem="{Binding ValittuAlue, Mode=TwoWay}"
+                BackgroundColor="{StaticResource VN_PrimaryColor}"  
+                WidthRequest="300"/>
+
+                             
+                <Label Grid.Column="1" Grid.Row="4" Text="Valitse mökki"  HorizontalOptions="Center"/>
+                <Picker Grid.Column="1" Grid.Row="5" x:Name="cabinListPicker"  BackgroundColor="{StaticResource VN_PrimaryColor}" ItemsSource="{Binding CabinNames}" WidthRequest="300" />
+
+
+                <Label  Grid.Column="1" Grid.Row="6" />
+
+                <Button  Grid.Column="1" Grid.Row="7" Text="Tallenna mökin muutokset" x:Name="tallennaMokki" Clicked="tallennaMokki_Clicked"/>
+
+                <Label  Grid.Column="1" Grid.Row="8" />
+
+
+                <Button  Grid.Column="1" Grid.Row="9" Text="Poista mökki" x:Name="poistaMokki" Clicked="poistaMokki_Clicked" BorderColor="Red"/>
+              
+            </Grid>
+
+
+
+
+
+        </VerticalStackLayout>
 	</ScrollView>
 
 </ContentPage>
