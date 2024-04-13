@@ -109,20 +109,24 @@ namespace booking_VillageNewbies
 
 
         // Käsittelee Lisää asiakas-napin painalluksen ja lisää uuden asiakkaan tietokantaan.
+
+
+
         private async void LisaaAsiakas_Clicked(object sender, EventArgs e)
         {
-
-            // Regex-säännöt sähköpostille ja puhelinnumerolle.
+            // Regex-säännöt sähköpostille, postinumerolle ja puhelinnumerolle.
             var emailRegex = new System.Text.RegularExpressions.Regex(@"^\S+@\S+\.\S+$");
-
             var phoneRegex = new System.Text.RegularExpressions.Regex(@"^\d{10}$");
+            var postalCodeRegex = new System.Text.RegularExpressions.Regex(@"^\d{5}$");
 
-            // Tarkista että kaikki pakolliset kentät on täytetty.
+            // Tarkista että kaikki pakolliset kentät on täytetty ja että postinumero on 5 numeron pituinen.
             if (string.IsNullOrWhiteSpace(etuNimi.Text) ||
                 string.IsNullOrWhiteSpace(sukuNimi.Text) ||
                 string.IsNullOrWhiteSpace(lahiOsoite.Text) ||
-               !emailRegex.IsMatch(eMail.Text) || // Tarkistetaan, että sähköpostiosoite on oikeassa muodossa.
-               !phoneRegex.IsMatch(puhNumero.Text)) // Tarkistetaan, että puhelinnumero on oikeassa muodossa.
+                string.IsNullOrWhiteSpace(postinro.Text) ||
+                !emailRegex.IsMatch(eMail.Text) || // Tarkistetaan, että sähköpostiosoite on oikeassa muodossa.
+                !phoneRegex.IsMatch(puhNumero.Text) || // Tarkistetaan, että puhelinnumero on oikeassa muodossa.
+                !postalCodeRegex.IsMatch(postinro.Text)) // Tarkistetaan, että postinumero on 5 numeron pituinen.
             {
                 await DisplayAlert("Virhe", "Tarkista, että kaikki kentät ovat täytetty, ja niissä on tiedot asianmukaisessa muodossa.", "OK");
                 return;
@@ -141,22 +145,23 @@ namespace booking_VillageNewbies
                 using (MySqlConnection conn = new MySqlConnection(constring))
                 {
                     await conn.OpenAsync();
-                    // Poistettu asiakas_id tästä kyselystä, koska se on AUTO_INCREMENT-kenttä
-                    string insertQuery = @"INSERT INTO asiakas (etunimi, sukunimi, lahiosoite, email, puhelinnro) VALUES (@etunimi, @sukunimi, @lahiosoite, @email, @puhelinnro);";
+                    string insertQuery = @"INSERT INTO asiakas (etunimi, sukunimi, lahiosoite, postinro, email, puhelinnro) VALUES (@etunimi, @sukunimi, @lahiosoite, @postinro, @email, @puhelinnro);";
 
                     using (MySqlCommand cmd = new MySqlCommand(insertQuery, conn))
                     {
-                        // Parametrien nimet on korjattu vastaamaan tietokannan kenttiä ja poistettu asiakas_id
                         cmd.Parameters.AddWithValue("@etunimi", etuNimi.Text);
                         cmd.Parameters.AddWithValue("@sukunimi", sukuNimi.Text);
                         cmd.Parameters.AddWithValue("@lahiosoite", lahiOsoite.Text);
+                        cmd.Parameters.AddWithValue("@postinro", postinro.Text);
                         cmd.Parameters.AddWithValue("@email", eMail.Text);
                         cmd.Parameters.AddWithValue("@puhelinnro", puhNumero.Text);
 
                         int rowsAffected = await cmd.ExecuteNonQueryAsync();
                         if (rowsAffected > 0)
                         {
-                            await DisplayAlert("Onnistui", "Asiakas lisätty onnistuneesti.", "OK");
+                            // Näytä lisättyjen tietojen yhteenveto
+                            string addedDataString = $"Etunimi: {etuNimi.Text}, Sukunimi: {sukuNimi.Text}, Osoite: {lahiOsoite.Text}, Postinumero: {postinro.Text}, Email: {eMail.Text}, Puhelinnumero: {puhNumero.Text}";
+                            await DisplayAlert("Onnistui", "Asiakas lisätty onnistuneesti.\nLisätyt tiedot:\n" + addedDataString, "OK");
                             await HaeAsiakkaat();
                         }
                         else
@@ -171,6 +176,8 @@ namespace booking_VillageNewbies
                 await DisplayAlert("Tietokantavirhe", $"Virhe yhdistettäessä tietokantaan: {ex.Message}", "OK");
             }
         }
+
+
 
 
 

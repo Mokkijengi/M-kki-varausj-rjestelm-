@@ -13,7 +13,9 @@
 
             <Entry x:Name="sukuNimi" Placeholder="Sukunimi"/>
 
-            <Entry x:Name="lahiOsoite" Placeholder="Lähiosoite ja postinumero"/>
+            <Entry x:Name="lahiOsoite" Placeholder="Lähiosoite"/>
+            <Entry x:Name="postinro" Placeholder="Postinumero"/>
+
 
             <Entry x:Name="eMail" Placeholder="Email"/>
 
