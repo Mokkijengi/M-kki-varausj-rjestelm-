@@ -17,6 +17,13 @@ namespace booking_VillageNewbies
         public ObservableCollection<string> AlueList { get; set; }
         public ObservableCollection<CheckBoxItem> CheckBoxItems { get; set; }
 
+        public class Asiakas
+        {
+            public int ClientId { get; set; }
+            public string Nimi { get; set; }
+        }
+
+
         public MainPage()
         {
             InitializeComponent();
@@ -57,6 +64,17 @@ namespace booking_VillageNewbies
                 }
             };
 
+            Aasiakkaat = new ObservableCollection<Asiakas>
+            {
+                   new Asiakas { ClientId = 1, Nimi = "Matti Meikäläinen" },
+                   new Asiakas { ClientId = 2, Nimi = "Maija Mallikas" },
+                   new Asiakas { ClientId = 3, Nimi = "Teppo Testaaja" },
+                   new Asiakas { ClientId = 4, Nimi = "Liisa Lomailija" },
+                   new Asiakas { ClientId = 5, Nimi = "Onni Opettaja" }
+            };
+
+            // Set the ObservableCollection as the ListView's ItemSource
+            clientListView.ItemsSource = Aasiakkaat;
 
 
             // Fetch areas from the database and populate AlueList
@@ -70,7 +88,7 @@ namespace booking_VillageNewbies
             string server = "localhost";
             string database = "vn";
             string username = "root";
-            string password = "Salasana-1212";
+            string password = "VN_password";
             string constring = "SERVER=" + server + ";" + "DATABASE=" + database + ";" +
                 "UID=" + username + ";" + "PASSWORD=" + password + ";";
 
@@ -118,7 +136,7 @@ namespace booking_VillageNewbies
             string server = "localhost";
             string database = "vn";
             string username = "root";
-            string password = "Salasana-1212";
+            string password = "VN_password";
             string constring = "SERVER=" + server + ";" + "DATABASE=" + database + ";" +
                 "UID=" + username + ";" + "PASSWORD=" + password + ";";
 
@@ -171,7 +189,7 @@ namespace booking_VillageNewbies
             string server = "localhost";
             string database = "vn";
             string username = "root";
-            string password = "Salasana-1212";
+            string password = "VN_password";
             string constring = "SERVER=" + server + ";" + "DATABASE=" + database + ";" +
                                "UID=" + username + ";" + "PASSWORD=" + password + ";";
 
@@ -227,7 +245,7 @@ namespace booking_VillageNewbies
             string server = "localhost";
             string database = "vn";
             string username = "root";
-            string password = "Salasana-1212";
+            string password = "VN_password";
             string constring = "SERVER=" + server + ";" + "DATABASE=" + database + ";" +
                                "UID=" + username + ";" + "PASSWORD=" + password + ";";
 
@@ -304,5 +322,8 @@ namespace booking_VillageNewbies
         }
 
 
+        // Define ObservableCollection for clients
+        public ObservableCollection<Asiakas> Aasiakkaat { get; set; }
     }
+    
 }

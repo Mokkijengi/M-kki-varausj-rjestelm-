@@ -276,7 +276,7 @@ namespace booking_VillageNewbies
 
         public async Task LisaaPalveluAsync()
         {
-            string constring = $"SERVER=localhost;DATABASE=vn;UID=root;PASSWORD=Salasana-1212;";
+            string constring = $"SERVER=localhost;DATABASE=vn;UID=root;PASSWORD=Rookal1nikke;";
             if (ValittuAlue == null)
             {
                 await DisplayAlert("Virhe", "Aluetta ei ole valittu.", "OK");
@@ -362,7 +362,7 @@ namespace booking_VillageNewbies
         //Metodi palvelun poistamiseen
         public async Task PoistaValittuPalvelu(int palveluId)
         {
-            string constring = "SERVER=localhost;DATABASE=vn;UID=root;PASSWORD=Salasana-1212;";
+            string constring = $"SERVER=localhost;DATABASE=vn;UID=root;PASSWORD=Rookal1nikke;";
 
             try
             {
@@ -395,8 +395,38 @@ namespace booking_VillageNewbies
             }
             catch (MySqlException ex)
             {
-                // Jos tietokantayhteydessä tapahtuu virhe, kerrotaan myös siitä
-                await DisplayAlert("Tietokantavirhe", "Virhe yhdistettäessä tietokantaan: " + ex.Message, "OK");
+                //Jos tietokantayhteydessä tapahtuu virhe kerrotaan myös siitä
+                await DisplayAlert("Tietokantavirhe", $"Virhe yhdistettäessä tietokantaan: {ex.Message}", "OK");
+            }
+        }
+
+        //Metodi palveluiden nimien hakemiseen
+        private async Task HaePalveluNimet()
+        {
+            string constring = $"SERVER=localhost;DATABASE=vn;UID=root;PASSWORD=Rookal1nikke;";
+            PalveluNimet.Clear(); // Tyhjennä lista ennen uuden datan hakemista
+
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(constring))
+                {
+                    await conn.OpenAsync();
+
+                    //Kun kanta on saatu auki tehdään SQL-kysely joka hakee kaikki nimet aakosjärjestyksessä
+                    string selectQuery = @"SELECT nimi FROM palvelu ORDER BY nimi ASC";
+
+                    using (MySqlCommand cmd = new MySqlCommand(selectQuery, conn))
+                    {
+                        using (var reader = await cmd.ExecuteReaderAsync())//Suoritetaan kysely
+                        {
+                            while (await reader.ReadAsync())//Käydään läpi tulokset
+                            {
+                                string palveluNimi = reader["nimi"].ToString();//Haetaan kenttien arvot ja muutetaan ne stringeiksi
+                                PalveluNimet.Add(palveluNimi);//Lisätään palvelun nimi kokoelmaan
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -407,8 +437,8 @@ namespace booking_VillageNewbies
 
         private async Task HaeAlueNimet()
         {
-            string constring = $"SERVER=localhost;DATABASE=vn;UID=root;PASSWORD=Salasana-1212;";
-            Alueet.Clear(); // Tyhjennetään lista ennen uuden datan hakemista
+            string constring = $"SERVER=localhost;DATABASE=vn;UID=root;PASSWORD=Rookal1nikke;";
+            Alueet.Clear(); // Tyhjennä lista ennen uuden datan hakemista
 
             try
             {
@@ -447,7 +477,7 @@ namespace booking_VillageNewbies
 
         public async Task NaytaPalvelunTiedot(int palveluId)
         {
-            string constring = $"SERVER=localhost;DATABASE=vn;UID=root;PASSWORD=Salasana-1212;";
+            string constring = $"SERVER=localhost;DATABASE=vn;UID=root;PASSWORD=Rookal1nikke;";
 
             try
             {
