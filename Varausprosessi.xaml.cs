@@ -4,6 +4,8 @@ using System.ComponentModel;
 using System.IO;
 using PdfSharpCore.Pdf;
 using PdfSharpCore.Drawing;
+using MySql.Data.MySqlClient; //for sql connection
+
 
 namespace booking_VillageNewbies;
 
@@ -15,6 +17,7 @@ public partial class Varausprosessi : ContentPage
     public DateTime loppuPvmDate { get; set; }
     public string selectedAlue { get; set; }
     public string selectedMokki { get; set; }
+
 
     //selected services from mainpage:
     public string selectedLisapalvelut { get; set; }
@@ -209,9 +212,130 @@ public partial class Varausprosessi : ContentPage
             Console.WriteLine("PDF file path is not available.");
         }
     }
+    //GET 1ST ASIAKASID FOR TESTING____________________________________________________________________________________
+    public async Task<int> GetFirstAsiakasIdAsync()
+    {
+        string server = "localhost";
+        string database = "vn";
+        string username = "root";
+        string password = "VN_password"; // Ensure this is your correct password
+        string constring = $"SERVER={server};DATABASE={database};UID={username};PASSWORD={password};";
+        int firstAsiakasId = -1;
+
+        try
+        {
+            using (MySqlConnection conn = new MySqlConnection(constring))
+            {
+                await conn.OpenAsync();
+                string query = "SELECT asiakas_id FROM asiakas ORDER BY asiakas_id LIMIT 1;";
+
+                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                {
+                    object result = await cmd.ExecuteScalarAsync();
+                    if (result != null)
+                    {
+                        firstAsiakasId = Convert.ToInt32(result);
+                    }
+                }
+            }
+        }
+        catch (MySqlException ex)
+        {
+            Console.WriteLine($"Error connecting to the database: {ex.Message}");
+            // Use Console.WriteLine for debugging purposes. 
+            // Replace with DisplayAlert or a suitable method for showing errors in your application context.
+        }
+
+        return firstAsiakasId;
+    }
+    
+    public async Task<int> GetMokkiIdByName(string selectedMokki)
+    {
+        int mokkiId = -1; // Default value if no ID is found
+        string server = "localhost";
+        string database = "vn";
+        string username = "root";
+        string password = "VN_password"; // Ensure this is your correct password
+        string constring = $"SERVER={server};DATABASE={database};UID={username};PASSWORD={password};";
+
+        try
+        {
+            using (MySqlConnection conn = new MySqlConnection(constring))
+            {
+                await conn.OpenAsync();
+                string query = "SELECT mokki_id FROM mokki WHERE mokkinimi = @mokkinimi";
+
+                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@mokkinimi", selectedMokki); //this does: WHERE mokkinimi = selectedMokki
+
+                    object result = await cmd.ExecuteScalarAsync();
+                    if (result != null)
+                    {
+                        mokkiId = Convert.ToInt32(result);
+                    }
+                    else
+                    {
+                        Console.WriteLine("No mokki ID found for the selected cabin.");
+                    }
+                }
+            }
+        }
+        catch (MySqlException ex)
+        {
+            // Handle exception or log error
+            Console.WriteLine($"Error retrieving mokkiId: {ex.Message}");
+        }
+
+        return mokkiId;
+    }
+    
+
+
+    //CONNECT TO SQL, CREATE VARAUS____________________________________________________________________________________
+    public async Task<int> LisaaVarausAsync(int asiakasId, int mokkiId, DateTime alkuPvm, DateTime loppuPvm)
+    {
+        string server = "localhost";
+        string database = "vn";
+        string username = "root";
+        string password = "VN_password"; // Ensure this is your correct password
+        string constring = $"SERVER={server};DATABASE={database};UID={username};PASSWORD={password};";
+        int newVarausId = -1;
+
+        try
+        {
+            using (MySqlConnection conn = new MySqlConnection(constring))
+            {
+                await conn.OpenAsync();
+                string insertQuery = @"
+                INSERT INTO varaus (asiakas_id, mokki_mokki_id, varattu_pvm, varattu_alkupvm, varattu_loppupvm)
+                VALUES (@asiakasId, @mokkiId, NOW(), @alkuPvm, @loppuPvm); SELECT LAST_INSERT_ID();";
+
+                using (MySqlCommand cmd = new MySqlCommand(insertQuery, conn))
+                {
+                    cmd.Parameters.AddWithValue("@asiakasId", asiakasId);
+                    cmd.Parameters.AddWithValue("@mokkiId", mokkiId); //MOKKI_ID EI MENE JOSTAIN SYYSTÄ PERILLE
+                    cmd.Parameters.AddWithValue("@alkuPvm", alkuPvm);
+                    cmd.Parameters.AddWithValue("@loppuPvm", loppuPvm);
+
+                    object result = await cmd.ExecuteScalarAsync();
+                    if (result != null)
+                    {
+                        newVarausId = Convert.ToInt32(result);
+                    }
+                }
+            }
+        }
+        catch (MySqlException ex)
+        {
+            await DisplayAlert("Error", "Error connecting to the database: " + ex.Message, "OK");
+        }
+
+        return newVarausId; //palauttaa varausID:n koodissa käytettäväksi, varaus luotu JO tässä vaiheessa SQL päässä
+    }
 
     //generate pdf____________________________________________________________________________________
-    private void GeneratePdf() //put generatepdf() to suorita varaus-nappi!
+    private void GeneratePdf(int asiakasId) //put generatepdf() to suorita varaus-nappi!
     {
         string clientId = GetClientId(); // Retrieve the client's ID
         string timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");
@@ -279,7 +403,7 @@ public partial class Varausprosessi : ContentPage
         // Draw client information
         gfx.DrawString("Client Information:", headingFont, headingBrush, new XPoint(30, 190));
         gfx.DrawString($"Client Name: {GetName()}", defaultFont, textBrush, new XPoint(30, 220));
-        gfx.DrawString($"Client ID: {clientId}", defaultFont, textBrush, new XPoint(30, 240));
+        gfx.DrawString($"Client ID: {asiakasId}", defaultFont, textBrush, new XPoint(30, 240));
 
         // Draw invoice details
         gfx.DrawString("Invoice Details:", headingFont, headingBrush, new XPoint(30, 280));
@@ -329,10 +453,15 @@ public partial class Varausprosessi : ContentPage
 
     //billing options____________________________________________________________________________________
     // Class-level variable to track if a billing option has been selected
-    private void OnSuoritaVarausClicked(object sender, EventArgs e)
+    private async void OnSuoritaVarausClicked(object sender, EventArgs e)
     {
+        int asiakasId = await GetFirstAsiakasIdAsync(); // Get the client ID from the selected client for testing its the first one
+        int mokkiId = await GetMokkiIdByName(selectedMokki); // Get the cabin ID from the selected cabin
+        int varausId = await LisaaVarausAsync(asiakasId, mokkiId, alkuPvmDate, loppuPvmDate);
+        //hankitaan asiakasID ja mokkinID, insertataan varausID_________________________________
+
         // Generate the PDF
-        GeneratePdf(); //oikeastaan lasku luodaan jo tässä vaiheessa vaikka ei vielä valittaisi laskutusvaihtoehtoa
+        GeneratePdf(asiakasId); //oikeastaan lasku luodaan jo tässä vaiheessa vaikka ei vielä valittaisi laskutusvaihtoehtoa
         //voisi muokata pdf tiedostojen nimeä esim: "lasku" + asiakasid + timestamp + ".pdf" ->
         //estetään kopioden luonti tarkastuksella, esim: asiakkaalla: nimi + id on jo lasku, haluatko varmasti luoda uuden laskun?
 
@@ -348,12 +477,13 @@ public partial class Varausprosessi : ContentPage
             if (selectedOption == "Email")
             {
                 SendEmail_Clicked(sender, e);
-                DisplayAlert("Varaus luotu. Lasku luotu Billing -kansioon.", "Lasku avattu sähköpostissa käsittelyä varten.", "OK");
+                DisplayAlert($"Varaus luotu. Lasku luotu Billing -kansioon.  Mökin id: {mokkiId}, Varauksen ID: {varausId}", "Lasku avattu sähköpostissa käsittelyä varten.", "OK");
             }
             else if (selectedOption == "Print")
             {
                 OpenPdf_Clicked(sender, e);
-                DisplayAlert("Varaus luotu. Lasku luotu Billing -kansioon.", "Lasku avattu tulostusta varten.", "OK");
+                //DisplayAlert("Varaus luotu. Lasku luotu Billing -kansioon.", "Lasku avattu tulostusta varten.", "OK");
+                DisplayAlert($"Varaus luotu. Lasku luotu Billing -kansioon. Mökin id: {mokkiId}, Varauksen ID: {varausId}", $"Lasku avattu tulostusta varten.", "OK");
             }
         }
         else if (selectedOptionsCount > 1)
