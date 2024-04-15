@@ -7,9 +7,15 @@ using System.Data;
 
 namespace booking_VillageNewbies
 {
+
+
+
+
     public partial class Mokkihallinta : ContentPage
     {
-       
+
+
+
         public ObservableCollection<string> CabinNames { get; set; } = new ObservableCollection<string>();
         public ObservableCollection<Alue> Alueet { get; set; } = new ObservableCollection<Alue>();
 
@@ -18,7 +24,7 @@ namespace booking_VillageNewbies
 
         public Mokkihallinta()
         {
-            
+
             InitializeComponent();
 
             BindingContext = this;//Binding sitoo tiedot XAML näkymään
@@ -35,14 +41,14 @@ namespace booking_VillageNewbies
             {
                 if (aluePicker.SelectedIndex != -1)
                 {
-                   string selectedAlue = Alueet[aluePicker.SelectedIndex].Nimi;
+                    string selectedAlue = Alueet[aluePicker.SelectedIndex].Nimi;
                     await FetchCabinNamesByAlue(selectedAlue);
-                 
+
                 }
             };
 
             cabinListPicker.ItemsSource = CabinNames;
-        
+
         }
         private async Task InitializeDataAsync()
         {
@@ -132,7 +138,7 @@ namespace booking_VillageNewbies
                         {
                             while (await reader.ReadAsync())
                             {
-                               // int mokki_id = reader.GetInt32("mokki_id"); 
+                                // int mokki_id = reader.GetInt32("mokki_id"); 
                                 string cabinName = reader.GetString("mokkinimi");
                                 CabinNames.Add(cabinName); // Add cabin name to collection
                             }
@@ -148,12 +154,12 @@ namespace booking_VillageNewbies
             }
         }
 
-       
-      
 
 
 
-      
+
+
+
 
         private async Task PopulateEntryFields(string selectedMokkiName)
         {
@@ -217,78 +223,64 @@ namespace booking_VillageNewbies
 
 
 
-        //NÄYTÄ VIIMEISIN LISÄTTY MÖKKI
-        public async Task ShowData(int mokkiId)
-        {
-            string server = "localhost";
-            string database = "vn";
-            string username = "root";
-            string password = "password";
-            string constring = "SERVER=" + server + ";" + "DATABASE=" + database + ";" +
-                "UID=" + username + ";" + "PASSWORD=" + password + ";";
-
-            try
-            {
-                using (MySqlConnection conn = new MySqlConnection(constring))
-                {
-                    await conn.OpenAsync();
-                    Console.WriteLine("Connection to the database successful.");
 
 
-
-
-        //NÄYTÄ VIIMEISIN LISÄTTY MÖKKI
-        public async Task ShowData(int mokkiId)
-        {
-            string server = "localhost";
-            string database = "vn";
-            string username = "root";
-            string password = "password";
-            string constring = "SERVER=" + server + ";" + "DATABASE=" + database + ";" +
-                "UID=" + username + ";" + "PASSWORD=" + password + ";";
-
-            try
-            {
-                using (MySqlConnection conn = new MySqlConnection(constring))
-                {
-                    await conn.OpenAsync();
-                    Console.WriteLine("Connection to the database successful.");
-
-                    string selectQuery = "SELECT * FROM mokki WHERE mokki_id = @mokkiId";
-
-                    using (MySqlCommand cmd = new MySqlCommand(selectQuery, conn))
+                    //NÄYTÄ VIIMEISIN LISÄTTY MÖKKI
+                    async Task ShowData(int mokkiId)
                     {
-                        cmd.Parameters.AddWithValue("@mokkiId", mokkiId);
+                        string server = "localhost";
+                        string database = "vn";
+                        string username = "root";
+                        string password = "password";
+                        string constring = "SERVER=" + server + ";" + "DATABASE=" + database + ";" +
+                            "UID=" + username + ";" + "PASSWORD=" + password + ";";
 
-                        using (MySqlDataReader reader = (MySqlDataReader)await cmd.ExecuteReaderAsync())
+                        try
                         {
-                            while (await reader.ReadAsync())
+                            using (MySqlConnection conn = new MySqlConnection(constring))
                             {
-                                string alue_id = reader["alue_id"].ToString();
-                                string postinro = reader["postinro"].ToString();
-                                string mokkinimi = reader["mokkinimi"].ToString();
-                                string katuosoite = reader["katuosoite"].ToString();
-                                string hinta = reader["hinta"].ToString();
-                                string kuvaus = reader["kuvaus"].ToString();
-                                string henkilomaara = reader["henkilomaara"].ToString();
-                                string varustelu = reader["varustelu"].ToString();
+                                await conn.OpenAsync();
+                                Console.WriteLine("Connection to the database successful.");
 
-                                // Create a string to display the fetched data
-                                string dataString = $"NIMI: {mokkinimi}, Postinro: {postinro},  Katusoite: {katuosoite}, Hinta: {hinta}, Kuvaus: {kuvaus}, Henkilomaara: {henkilomaara}, Varustelu: {varustelu}, ID: { mokkiId}, Alue ID: { alue_id}";
+                                string selectQuery = "SELECT * FROM mokki WHERE mokki_id = @mokkiId";
 
-                                // Display the fetched data in a DisplayAlert dialog
-                                await DisplayAlert("Mökki tallennettu onnistuneesti", dataString, "OK");
+                                using (MySqlCommand cmd = new MySqlCommand(selectQuery, conn))
+                                {
+                                    cmd.Parameters.AddWithValue("@mokkiId", mokkiId);
+
+                                    using (MySqlDataReader reader = (MySqlDataReader)await cmd.ExecuteReaderAsync())
+                                    {
+                                        while (await reader.ReadAsync())
+                                        {
+                                            string alue_id = reader["alue_id"].ToString();
+                                            string postinro = reader["postinro"].ToString();
+                                            string mokkinimi = reader["mokkinimi"].ToString();
+                                            string katuosoite = reader["katuosoite"].ToString();
+                                            string hinta = reader["hinta"].ToString();
+                                            string kuvaus = reader["kuvaus"].ToString();
+                                            string henkilomaara = reader["henkilomaara"].ToString();
+                                            string varustelu = reader["varustelu"].ToString();
+
+                                            // Create a string to display the fetched data
+                                            string dataString = $"NIMI: {mokkinimi}, Postinro: {postinro},  Katusoite: {katuosoite}, Hinta: {hinta}, Kuvaus: {kuvaus}, Henkilomaara: {henkilomaara}, Varustelu: {varustelu}, ID: {mokkiId}, Alue ID: {alue_id}";
+
+                                            // Display the fetched data in a DisplayAlert dialog
+                                            await DisplayAlert("Mökki tallennettu onnistuneesti", dataString, "OK");
+                                        }
+                                    }
+                                }
                             }
                         }
+                        catch (MySqlException ex)
+                        {
+                            await DisplayAlert("Error", "Error connecting to the database: " + ex.Message, "OK");
+                            Console.WriteLine("Error connecting to the database: " + ex.Message);
+                        }
                     }
-                }
-            }
-            catch (MySqlException ex)
-            {
-                await DisplayAlert("Error", "Error connecting to the database: " + ex.Message, "OK");
-                Console.WriteLine("Error connecting to the database: " + ex.Message);
-            }
-        }
+
+                
+            
+            
         //LISÄÄ MOKKI
         public async Task LisaaMokkiAsync()
         {
@@ -296,7 +288,7 @@ namespace booking_VillageNewbies
             string server = "localhost";
             string database = "vn";
             string username = "root";
-            string password = "VN_password";
+            string password = "password";
             string constring = "SERVER=" + server + ";" + "DATABASE=" + database + ";" +
                 "UID=" + username + ";" + "PASSWORD=" + password + ";";
 
@@ -308,7 +300,7 @@ namespace booking_VillageNewbies
                     Console.WriteLine("Connection to the database successful.");
 
                     // Retrieve values from UI elements
-                    string alue_id = alueID.Text;
+                   
                     string postinro = postiNro.Text;
                     string mokkinimi = mokinNimi.Text;
                     string katuosoite = katuOsoite.Text;
@@ -406,13 +398,13 @@ namespace booking_VillageNewbies
         }
 
         // Define a method to handle mokki deletion
-        private async Task DeleteSelectedMokki(string selectedMokkiName)  
-            //SelectedIndex = cabinListPicker.SelectedIndex
+        private async Task DeleteSelectedMokki(string selectedMokkiName)
+        //SelectedIndex = cabinListPicker.SelectedIndex
         {
             string server = "localhost";
             string database = "vn";
             string username = "root";
-            string password = "Salasana-1212";
+            string password = "password";
             string constring = "SERVER=" + server + ";" + "DATABASE=" + database + ";" +
                 "UID=" + username + ";" + "PASSWORD=" + password + ";";
 
@@ -434,7 +426,7 @@ namespace booking_VillageNewbies
                         {
                             await DisplayAlert("Onnistui", $"{selectedMokkiName} tiedot poistettu onnistuneesti", "OK");
 
-                         
+
                         }
                         else
                         {
@@ -450,14 +442,14 @@ namespace booking_VillageNewbies
             }
         }
 
-       
+
         private async void UpdateSelectedMokki(string selectedMokkiName)
         {
-            
+
             string server = "localhost";
             string database = "vn";
             string username = "root";
-            string password = "Salasana-1212";
+            string password = "password";
             string constring = "SERVER=" + server + ";" + "DATABASE=" + database + ";" +
                 "UID=" + username + ";" + "PASSWORD=" + password + ";";
 
@@ -476,7 +468,7 @@ namespace booking_VillageNewbies
                     string hintaText = hinta.Text;
                     double hintaValue;
 
-                   
+
 
 
                     if (!double.TryParse(hintaText, out hintaValue))
@@ -562,11 +554,11 @@ namespace booking_VillageNewbies
                         if (result > 0)
                         {
 
-                        
+
                             Console.WriteLine("Mokki updated successfully.");
-                            
+
                             // Assuming you have a method to get the mokki_id of the newly added record
-                            await ShowData(mokkiId);                   
+                            await ShowData(mokkiId);
                         }
                         else
                         {
@@ -583,7 +575,7 @@ namespace booking_VillageNewbies
             }
         }
 
-        
+
 
         private void ClearEntryFields()
         {
@@ -605,9 +597,9 @@ namespace booking_VillageNewbies
         //////////////////////////bUTTONS //////////////////////////////////////////////////////////////////////////////////////////
         private async void Lisaa_Mokki_Clicked(object sender, EventArgs e)
         {
-           
-                await LisaaMokkiAsync();
-              
+
+            await LisaaMokkiAsync();
+
             ClearEntryFields();
 
         }
@@ -619,10 +611,10 @@ namespace booking_VillageNewbies
             if (cabinListPicker.SelectedItem != null)
 
             {
-               // int selectedIndex = cabinListPicker.SelectedIndex;
+                // int selectedIndex = cabinListPicker.SelectedIndex;
                 string selectedMokkiName = cabinListPicker.SelectedItem.ToString();
                 await DeleteSelectedMokki(selectedMokkiName);
-                    }
+            }
             else
             {
                 await DisplayAlert("Error", "Please select a mokki to delete.", "OK");
@@ -635,16 +627,16 @@ namespace booking_VillageNewbies
 
         private async void tallennaMokki_Clicked(object sender, EventArgs e)
         {
-           
+
             if (cabinListPicker.SelectedItem != null)
             {
                 string selectedMokkiName = cabinListPicker.SelectedItem.ToString();
                 UpdateSelectedMokki(selectedMokkiName);
 
 
-               
 
-                
+
+
             }
             else
             {
@@ -666,32 +658,35 @@ namespace booking_VillageNewbies
             mokinKuvaus.Text = "";
             henkiloMaara.Text = "";
             mokinVarustelu.Text = "";
-                                
+
             cabinListPicker.SelectedIndex = -1;
             aluePicker.SelectedIndex = -1;
 
         }
     }
+
+
 }
 
-        private void clear_button_Clicked(object sender, EventArgs e)
-        {
-            // Set text properties of entry fields to an empty string
-            postiNro.Text = "";
-            mokinNimi.Text = "";
-            katuOsoite.Text = "";
-            hinta.Text = "";
-            mokinKuvaus.Text = "";
-            henkiloMaara.Text = "";
-            mokinVarustelu.Text = "";
-                                
-            cabinListPicker.SelectedIndex = -1;
-            aluePicker.SelectedIndex = -1;
 
-        }
-    }
-}
 
+
+
+
+
+
+
+
+
+            
+
+
+
+
+                     
+            
+
+    
 
 
 

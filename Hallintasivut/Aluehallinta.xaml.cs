@@ -23,7 +23,7 @@ namespace booking_VillageNewbies
             string server = "localhost";
             string database = "vn";
             string username = "root";
-            string password = "Salasana-1212";
+            string password = "password";
             string constring = $"SERVER={server};DATABASE={database};UID={username};PASSWORD={password};";
 
             try
@@ -57,7 +57,7 @@ namespace booking_VillageNewbies
             string server = "localhost";
             string database = "vn";
             string username = "root";
-            string password = "Rookal1nikke";
+            string password = "password";
             string constring = $"SERVER={server};DATABASE={database};UID={username};PASSWORD={password};";
             int newAlueId = -1;
 
@@ -107,7 +107,7 @@ namespace booking_VillageNewbies
             string server = "localhost";
             string database = "vn";
             string username = "root";
-            string password = "Rookal1nikke";
+            string password = "password";
             string constring = $"SERVER={server};DATABASE={database};UID={username};PASSWORD={password};";
 
             try
@@ -158,7 +158,7 @@ namespace booking_VillageNewbies
             string server = "localhost";
             string database = "vn";
             string username = "root";
-            string password = "Rookal1nikke";
+            string password = "password";
             string constring = $"SERVER={server};DATABASE={database};UID={username};PASSWORD={password};";
 
             try
