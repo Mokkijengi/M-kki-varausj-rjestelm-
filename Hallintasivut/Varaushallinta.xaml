@@ -29,6 +29,8 @@
 
             <Button Text="Poista varaus"/>
 
+            <Button Text="Tarkastele laskuja" Clicked="TarkasteleLaskuja_Clicked"/>
+
         </VerticalStackLayout>
     </ScrollView>
 

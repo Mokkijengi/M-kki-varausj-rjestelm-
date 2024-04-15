@@ -218,7 +218,7 @@ public partial class Varausprosessi : ContentPage
         string server = "localhost";
         string database = "vn";
         string username = "root";
-        string password = "VN_password"; // Ensure this is your correct password
+        string password = "Salasana-1212"; // Ensure this is your correct password
         string constring = $"SERVER={server};DATABASE={database};UID={username};PASSWORD={password};";
         int firstAsiakasId = -1;
 
@@ -255,7 +255,7 @@ public partial class Varausprosessi : ContentPage
         string server = "localhost";
         string database = "vn";
         string username = "root";
-        string password = "VN_password"; // Ensure this is your correct password
+        string password = "Salasana-1212"; // Ensure this is your correct password
         string constring = $"SERVER={server};DATABASE={database};UID={username};PASSWORD={password};";
 
         try
@@ -298,7 +298,7 @@ public partial class Varausprosessi : ContentPage
         string server = "localhost";
         string database = "vn";
         string username = "root";
-        string password = "VN_password"; // Ensure this is your correct password
+        string password = "Salasana-1212"; // Ensure this is your correct password
         string constring = $"SERVER={server};DATABASE={database};UID={username};PASSWORD={password};";
         int newVarausId = -1;
 

@@ -25,7 +25,7 @@ namespace booking_VillageNewbies
         //Tarkistus joka pit‰‰ huolen siit‰ ettei saman nimisi‰ asiakkaita luoda useampaa
         private async Task<bool> OnkoAsiakasOlemassa(string etunimi, string sukunimi)
         {
-            string constring = "SERVER=localhost;DATABASE=vn;UID=root;PASSWORD=password;";
+            string constring = "SERVER=localhost;DATABASE=vn;UID=root;PASSWORD=Salasana-1212;";
             try
             {
                 using (MySqlConnection conn = new MySqlConnection(constring))
@@ -57,7 +57,7 @@ namespace booking_VillageNewbies
         // Hakee kaikki asiakkaat tietokannasta ja lis‰‰ ne AsiakasLista-kokoelmaan.
         private async Task HaeAsiakkaat()
         {
-            string constring = "SERVER=localhost;DATABASE=vn;UID=root;PASSWORD=password;";
+            string constring = "SERVER=localhost;DATABASE=vn;UID=root;PASSWORD=Salasana-1212;";
             try
             {
                 using (MySqlConnection conn = new MySqlConnection(constring))
@@ -132,7 +132,7 @@ namespace booking_VillageNewbies
                 return;
             }
 
-            string constring = "SERVER=localhost;DATABASE=vn;UID=root;PASSWORD=password;";
+            string constring = "SERVER=localhost;DATABASE=vn;UID=root;PASSWORD=Salasana-1212;";
 
             bool asiakasOnOlemassa = await OnkoAsiakasOlemassa(etuNimi.Text, sukuNimi.Text);
             if (asiakasOnOlemassa)
@@ -194,7 +194,7 @@ namespace booking_VillageNewbies
                 return;
             }
 
-            string constring = "SERVER=localhost;DATABASE=vn;UID=root;PASSWORD=password;";
+            string constring = "SERVER=localhost;DATABASE=vn;UID=root;PASSWORD=Salasana-1212;";
             try
             {
                 using (MySqlConnection conn = new MySqlConnection(constring))
@@ -264,7 +264,7 @@ namespace booking_VillageNewbies
 
             string valittuAsiakasId = ValittuAsiakas.AsiakasId.ToString();
 
-            string constring = "SERVER=localhost;DATABASE=vn;UID=root;PASSWORD=password;";
+            string constring = "SERVER=localhost;DATABASE=vn;UID=root;PASSWORD=Salasana-1212;";
             try
             {
                 using (MySqlConnection conn = new MySqlConnection(constring))
