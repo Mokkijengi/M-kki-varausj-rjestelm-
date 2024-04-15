@@ -1,5 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
 using System.Collections.ObjectModel;
+using System.Data.Common;
 
 namespace booking_VillageNewbies
 {
@@ -17,17 +18,21 @@ namespace booking_VillageNewbies
         public ObservableCollection<string> AlueList { get; set; }
         public ObservableCollection<CheckBoxItem> CheckBoxItems { get; set; }
 
+        // Define ObservableCollection for clients
+        public ObservableCollection<Asiakas> Aasiakkaat { get; set; }
+
         public class Asiakas
         {
-            public int ClientId { get; set; }
+            //public int ClientId { get; set; }
             public string Nimi { get; set; }
         }
+        public Asiakas SelectedAsiakas { get; set; } // Selected client for jatkaVaraukseenClicked
+
 
 
         public MainPage()
         {
             InitializeComponent();
-
 
             // Initialize the ObservableCollection with fake cabin names
             CabinNames = new ObservableCollection<string>();
@@ -50,6 +55,8 @@ namespace booking_VillageNewbies
                 new CheckBoxItem { IsSelected = false, Label = "Option 3" }
             };
 
+            Aasiakkaat = new ObservableCollection<Asiakas>();
+
             checkBoxList.ItemsSource = CheckBoxItems;
 
 
@@ -64,21 +71,47 @@ namespace booking_VillageNewbies
                 }
             };
 
-            Aasiakkaat = new ObservableCollection<Asiakas>
-            {
-                   new Asiakas { ClientId = 1, Nimi = "Matti Meikäläinen" },
-                   new Asiakas { ClientId = 2, Nimi = "Maija Mallikas" },
-                   new Asiakas { ClientId = 3, Nimi = "Teppo Testaaja" },
-                   new Asiakas { ClientId = 4, Nimi = "Liisa Lomailija" },
-                   new Asiakas { ClientId = 5, Nimi = "Onni Opettaja" }
-            };
-
             // Set the ObservableCollection as the ListView's ItemSource
             clientListView.ItemsSource = Aasiakkaat;
 
 
             // Fetch areas from the database and populate AlueList
             FetchAreasFromDatabase();
+        }
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+
+            // Fetch client names from the database and populate Aasiakkaat
+            await FetchClientNames();
+        }
+
+        private void OnClientSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            if (e.SelectedItem != null)
+            {
+                SelectedAsiakas = (Asiakas)e.SelectedItem;
+            }
+        }
+
+
+        private void OnSearchTextChanged(object sender, TextChangedEventArgs e)
+        {
+            var searchBar = sender as SearchBar;
+            var searchText = searchBar.Text;
+
+            if (string.IsNullOrWhiteSpace(searchText))
+            {
+                // Reset to original list
+                clientListView.ItemsSource = Aasiakkaat; // Replace 'OriginalItems' with your actual data source
+            }
+            else
+            {
+                // Perform filtering
+                clientListView.ItemsSource = Aasiakkaat
+                    .Where(item => item.Nimi.ToLowerInvariant().Contains(searchText.ToLowerInvariant()))
+                    .ToList();
+            }
         }
 
 
@@ -88,7 +121,7 @@ namespace booking_VillageNewbies
             string server = "localhost";
             string database = "vn";
             string username = "root";
-            string password = "Salasana-1212";
+            string password = "VN_password";
             string constring = "SERVER=" + server + ";" + "DATABASE=" + database + ";" +
                 "UID=" + username + ";" + "PASSWORD=" + password + ";";
 
@@ -136,7 +169,7 @@ namespace booking_VillageNewbies
             string server = "localhost";
             string database = "vn";
             string username = "root";
-            string password = "Salasana-1212";
+            string password = "VN_password";
             string constring = "SERVER=" + server + ";" + "DATABASE=" + database + ";" +
                 "UID=" + username + ";" + "PASSWORD=" + password + ";";
 
@@ -189,7 +222,7 @@ namespace booking_VillageNewbies
             string server = "localhost";
             string database = "vn";
             string username = "root";
-            string password = "Salasana-1212";
+            string password = "VN_password";
             string constring = "SERVER=" + server + ";" + "DATABASE=" + database + ";" +
                                "UID=" + username + ";" + "PASSWORD=" + password + ";";
 
@@ -245,7 +278,7 @@ namespace booking_VillageNewbies
             string server = "localhost";
             string database = "vn";
             string username = "root";
-            string password = "Salasana-1212";
+            string password = "VN_password";
             string constring = "SERVER=" + server + ";" + "DATABASE=" + database + ";" +
                                "UID=" + username + ";" + "PASSWORD=" + password + ";";
 
@@ -283,10 +316,74 @@ namespace booking_VillageNewbies
             }
         }
 
+        //Fetch asiakas etunimi and sukunimi from sql:
+        private async Task FetchClientNames()
+        {
+            string server = "localhost";
+            string database = "vn";
+            string username = "root";
+            string password = "VN_password";
+            string constring = "SERVER=" + server + ";" + "DATABASE=" + database + ";" +
+                               "UID=" + username + ";" + "PASSWORD=" + password + ";";
 
-        //viedään valitut tiedot varausprosessiin
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(constring))
+                {
+                    await conn.OpenAsync();
+                    Console.WriteLine("Connection to the database successful.");
+
+                    // Assuming 'etunimi' and 'sukunimi' are the column names for first and last names
+                    string selectQuery = "SELECT etunimi, sukunimi FROM vn.asiakas";
+
+                    using (MySqlCommand cmd = new MySqlCommand(selectQuery, conn))
+                    {
+                        using (DbDataReader reader = await cmd.ExecuteReaderAsync())
+                        {
+                            Aasiakkaat.Clear(); // Clear existing items
+
+                            while (await reader.ReadAsync())
+                            {
+                                        string firstName = reader.GetString(reader.GetOrdinal("etunimi"));
+                                        string lastName = reader.GetString(reader.GetOrdinal("sukunimi"));
+                                        string fullName = firstName + " " + lastName;
+
+                                // Add client to collection with a combined name
+                                Aasiakkaat.Add(new Asiakas { Nimi = fullName });
+                            }
+                        }
+                    }
+                }
+
+                clientListView.ItemsSource = Aasiakkaat; // Update the ListView's ItemSource
+            }
+            catch (MySqlException ex)
+            {
+                await DisplayAlert("Error", "Error connecting to the database: " + ex.Message, "OK");
+                Console.WriteLine("Error connecting to the database: " + ex.Message);
+            }
+        }
+
+
+        //viedään valitut tiedot varausprosessiin____________________________________________________________________________________
         private async void JatkaVaraukseenClicked(object sender, EventArgs e)
         {
+            string selectedEtunimi = ""; // Declare the variables here
+            string selectedSukunimi = "";
+
+            if (clientListView.SelectedItem != null)
+            {
+                SelectedAsiakas = (Asiakas)clientListView.SelectedItem;
+                string[] nameParts = SelectedAsiakas.Nimi.Split(' ');
+                selectedEtunimi = nameParts[0];
+                selectedSukunimi = nameParts[1];
+            }
+            else
+            {
+                await DisplayAlert("Virhe", "Valitse asiakas ensin", "OK");
+                return;
+            }
+
             if (alkuPvm.Date < loppuPvm.Date)
             {
                 if (aluePicker.SelectedIndex != -1 && cabinListPicker.SelectedIndex != -1)
@@ -308,7 +405,7 @@ namespace booking_VillageNewbies
                     }
                     string selectedLisapalvelut = string.Join(",", selectedServices);
 
-                    await Navigation.PushAsync(new Varausprosessi(selectedAlue, selectedMokki, alkuPvmDate, loppuPvmDate, selectedLisapalvelut));
+                    await Navigation.PushAsync(new Varausprosessi(selectedAlue, selectedMokki, alkuPvmDate, loppuPvmDate, selectedLisapalvelut, selectedEtunimi, selectedSukunimi));
                 }
                 else
                 {
@@ -320,10 +417,6 @@ namespace booking_VillageNewbies
                 await DisplayAlert("Virhe", "Loppupäivämäärän tulee olla alkupäivämäärän jälkeen", "OK");
             }
         }
-
-
-        // Define ObservableCollection for clients
-        public ObservableCollection<Asiakas> Aasiakkaat { get; set; }
     }
     
 }

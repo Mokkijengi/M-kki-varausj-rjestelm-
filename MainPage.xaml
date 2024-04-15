@@ -47,15 +47,15 @@
             <!-- How to change the selected to highlight? OR get it to label-->
             <Frame Grid.Row="1"  Grid.Column="0" Grid.RowSpan="1">
                 <VerticalStackLayout>
-                    <SearchBar BackgroundColor="{StaticResource VN_PrimaryColor}" x:Name="clientSearchBar" Placeholder="Hae asiakas tunnuksella tai nimellä" />
-                    <ListView BackgroundColor="{StaticResource VN_PrimaryColor}" x:Name="clientListView" ItemsSource="{Binding Aasiakkaat}" IsPullToRefreshEnabled="True" RefreshCommand="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}">
+                    <SearchBar BackgroundColor="{StaticResource VN_PrimaryColor}" x:Name="clientSearchBar" Placeholder="Hae asiakas nimellä" TextChanged="OnSearchTextChanged"/>
+                    <ListView BackgroundColor="{StaticResource VN_PrimaryColor}" x:Name="clientListView" ItemsSource="{Binding Aasiakkaat}" IsPullToRefreshEnabled="True" RefreshCommand="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}" ItemSelected="OnClientSelected">
                         <ListView.Header>
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="100" />
-                                    <ColumnDefinition Width="*" />
+                                    <!-- <ColumnDefinition Width="*" /> -->
                                 </Grid.ColumnDefinitions>
-                                <Label Text="Client ID" FontAttributes="Bold" Grid.Column="0" />
+                                <!-- <Label Text="Client ID" FontAttributes="Bold" Grid.Column="0" /> -->
                                 <Label Text="Name" FontAttributes="Bold" Grid.Column="1" />
                             </Grid>
                         </ListView.Header>
@@ -65,9 +65,9 @@
                                     <Grid Padding="5">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="100" />
-                                            <ColumnDefinition Width="*" />
+                                            <!-- <ColumnDefinition Width="*" /> -->
                                         </Grid.ColumnDefinitions>
-                                        <Label Grid.Column="0" Text="{Binding ClientId}" />
+                                        <!-- <Label Grid.Column="0" Text="{Binding ClientId}" /> -->
                                         <Label Grid.Column="1" Text="{Binding Nimi}" />
                                     </Grid>
                                 </ViewCell>

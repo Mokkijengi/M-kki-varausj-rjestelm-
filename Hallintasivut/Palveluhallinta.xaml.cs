@@ -50,7 +50,7 @@ namespace booking_VillageNewbies
 
         private async Task HaePalveluJaAlueTiedot()
         {
-            string constring = "SERVER=localhost;DATABASE=vn;UID=root;PASSWORD=Salasana-1212;";
+            string constring = "SERVER=localhost;DATABASE=vn;UID=root;PASSWORD=VN_password;";
             try
             {
                 using (MySqlConnection conn = new MySqlConnection(constring))
@@ -89,7 +89,7 @@ namespace booking_VillageNewbies
         //Metodi joka tarkistaa annetuilla ehdoilla ettei duplikaatti palveluja p‰‰dy samalle alueelle.
         private async Task<bool> OnkoPalveluOlemassa(string nimi, int alueId)
         {
-            string constring = "SERVER=localhost;DATABASE=vn;UID=root;PASSWORD=Salasana-1212;";
+            string constring = "SERVER=localhost;DATABASE=vn;UID=root;PASSWORD=VN_password;";
             try
             {
                 using (MySqlConnection conn = new MySqlConnection(constring))
@@ -135,7 +135,7 @@ namespace booking_VillageNewbies
 
         public async Task HaeValitunPalvelunLisatiedot(int palveluId)
         {
-            string constring = "SERVER=localhost;DATABASE=vn;UID=root;PASSWORD=Salasana-1212;";
+            string constring = "SERVER=localhost;DATABASE=vn;UID=root;PASSWORD=VN_password;";
             try
             {
                 using (MySqlConnection conn = new MySqlConnection(constring))
@@ -199,7 +199,7 @@ namespace booking_VillageNewbies
 
         private async Task MuokkaaValittuaPalvelua()
         {
-            string constring = $"SERVER=localhost;DATABASE=vn;UID=root;PASSWORD=Salasana-1212;";
+            string constring = $"SERVER=localhost;DATABASE=vn;UID=root;PASSWORD=VN_password;";
             try
             {
                 using (MySqlConnection conn = new MySqlConnection(constring))
@@ -276,7 +276,7 @@ namespace booking_VillageNewbies
 
         public async Task LisaaPalveluAsync()
         {
-            string constring = $"SERVER=localhost;DATABASE=vn;UID=root;PASSWORD=Salasana-1212;";
+            string constring = $"SERVER=localhost;DATABASE=vn;UID=root;PASSWORD=VN_password;";
             if (ValittuAlue == null)
             {
                 await DisplayAlert("Virhe", "Aluetta ei ole valittu.", "OK");
@@ -362,7 +362,7 @@ namespace booking_VillageNewbies
         //Metodi palvelun poistamiseen
         public async Task PoistaValittuPalvelu(int palveluId)
         {
-            string constring = $"SERVER=localhost;DATABASE=vn;UID=root;PASSWORD=Salasana-1212;";
+            string constring = $"SERVER=localhost;DATABASE=vn;UID=root;PASSWORD=VN_password;";
 
             try
             {
@@ -403,7 +403,7 @@ namespace booking_VillageNewbies
         //Metodi palveluiden nimien hakemiseen
         private async Task HaePalveluNimet()
         {
-            string constring = $"SERVER=localhost;DATABASE=vn;UID=root;PASSWORD=Salasana-1212;";
+            string constring = $"SERVER=localhost;DATABASE=vn;UID=root;PASSWORD=VN_password;";
             PalveluNimet.Clear(); // Tyhjenn‰ lista ennen uuden datan hakemista
 
             try
@@ -444,7 +444,7 @@ namespace booking_VillageNewbies
 
         private async Task HaeAlueNimet()
         {
-            string constring = $"SERVER=localhost;DATABASE=vn;UID=root;PASSWORD=Salasana-1212;";
+            string constring = $"SERVER=localhost;DATABASE=vn;UID=root;PASSWORD=VN_password;";
             Alueet.Clear(); // Tyhjenn‰ lista ennen uuden datan hakemista
 
             try
@@ -484,7 +484,7 @@ namespace booking_VillageNewbies
 
         public async Task NaytaPalvelunTiedot(int palveluId)
         {
-            string constring = $"SERVER=localhost;DATABASE=vn;UID=root;PASSWORD=Salasana-1212;";
+            string constring = $"SERVER=localhost;DATABASE=vn;UID=root;PASSWORD=VN_password;";
 
             try
             {

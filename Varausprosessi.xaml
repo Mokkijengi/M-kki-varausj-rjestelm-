@@ -23,33 +23,7 @@
             <!-- How to change the selected to highlight? OR get it to label-->
             <Frame Grid.Row="0"  Grid.Column="0" Grid.RowSpan="4">
                 <VerticalStackLayout>
-                    <SearchBar BackgroundColor="{StaticResource VN_PrimaryColor}" x:Name="clientSearchBar" Placeholder="Hae asiakas tunnuksella tai nimellä" TextChanged="OnClientSearchTextChanged"/>
-                    <ListView BackgroundColor="{StaticResource VN_PrimaryColor}" x:Name="clientListView" ItemsSource="{Binding Aasiakkaat}" IsPullToRefreshEnabled="True" RefreshCommand="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}">
-                        <ListView.Header>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="100" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <Label Text="Client ID" FontAttributes="Bold" Grid.Column="0" />
-                                <Label Text="Name" FontAttributes="Bold" Grid.Column="1" />
-                            </Grid>
-                        </ListView.Header>
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <ViewCell>
-                                    <Grid Padding="5">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="100" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
-                                        <Label Grid.Column="0" Text="{Binding ClientId}" />
-                                        <Label Grid.Column="1" Text="{Binding Nimi}" />
-                                    </Grid>
-                                </ViewCell>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
+ 
                 </VerticalStackLayout>
             </Frame>
 
@@ -108,11 +82,11 @@
 
                 <!-- Hinta and its value -->
                 <Label Grid.Row="6" Grid.Column="0" Text="Hinta ajalta" VerticalOptions="Center" />
-                <Label Grid.Row="6" Grid.Column="1" Text="[Price]" VerticalOptions="Center" />
+                <Label Grid.Row="6" Grid.Column="1" Text="{Binding hinta}" VerticalOptions="Center" />
                 
                 <!-- Asiakas and its value -->
                 <Label Grid.Row="7" Grid.Column="0" Text="Asiakas" VerticalOptions="Center" />
-                <Label Grid.Row="7" Grid.Column="1" Text="[Client ID] [Name]" VerticalOptions="Center" />
+                <Label Grid.Row="7" Grid.Column="1" Text="{Binding FullName}" VerticalOptions="Center" />
 
             </Grid>
 
