@@ -9,7 +9,7 @@
 
         private async void OnLogoTapped(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new MainPage());
+            await Shell.Current.GoToAsync($"///{nameof(MainPage)}");
         }
         private async void OnHallintoClicked(object sender, EventArgs e)
         {

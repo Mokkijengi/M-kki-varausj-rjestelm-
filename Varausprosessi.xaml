@@ -79,15 +79,9 @@
                     </ListView.ItemTemplate>
                 </ListView>
 
-
-                <!-- Hinta and its value -->
-                <Label Grid.Row="6" Grid.Column="0" Text="Hinta ajalta" VerticalOptions="Center" />
-                <Label Grid.Row="6" Grid.Column="1" Text="{Binding hinta}" VerticalOptions="Center" />
-                
                 <!-- Asiakas and its value -->
-                <Label Grid.Row="7" Grid.Column="0" Text="Asiakas" VerticalOptions="Center" />
-                <Label Grid.Row="7" Grid.Column="1" Text="{Binding FullName}" VerticalOptions="Center" />
-
+                <Label Grid.Row="6" Grid.Column="0" Text="Asiakas" VerticalOptions="Center" />
+                <Label Grid.Row="6" Grid.Column="1" Text="{Binding FullName}" VerticalOptions="Center" />
             </Grid>
 
 

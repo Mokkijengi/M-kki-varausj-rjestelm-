@@ -11,7 +11,6 @@ namespace booking_VillageNewbies;
 
 public partial class Varausprosessi : ContentPage
 {
-
     //varaustiedot tuodaan näillä muuttujalla mainpagelta
     public DateTime alkuPvmDate { get; set; }
     public DateTime loppuPvmDate { get; set; }
@@ -21,6 +20,7 @@ public partial class Varausprosessi : ContentPage
     public string selectedEtunimi { get; set; }
     public string selectedSukunimi { get; set; }
     public string FullName => $"{selectedEtunimi} {selectedSukunimi}";
+
 
 
     //selected services from mainpage:
@@ -73,20 +73,6 @@ public partial class Varausprosessi : ContentPage
         this.selectedEtunimi = selectedEtunimi;
         this.selectedSukunimi = selectedSukunimi;
 
-        // Set the page's context for bindings VOI POISTAA? PITÄÄ OLLA VARAUSPROSESSIN LOPUSSA MÄÄRITTELYJEN JÄLKEEN
-        //this.BindingContext = this;
-
-        /*
-        // Initialize the mock collection of clients
-        Asiakkaat = new ObservableCollection<Asiakas>
-        {
-            new Asiakas { ClientId = "001", Nimi = "John Doe" },
-            new Asiakas { ClientId = "002", Nimi = "Jane Smith" },
-            new Asiakas { ClientId = "003", Nimi = "Alice Johnson" },
-            new Asiakas { ClientId = "004", Nimi = "Bob Brown" }
-            // Add more mock clients as needed for testing
-        };*/
-
         BillingOptions = new ObservableCollection<BillingOption>
         {
             new BillingOption { Label = "Email", IsSelected = false },
@@ -98,51 +84,49 @@ public partial class Varausprosessi : ContentPage
         this.BindingContext = this;
     }
 
-    // Event handler for the SearchBar's TextChanged event
-
-
-    // Handle the ItemSelected event of the clientListView
-    private void OnClientListViewItemSelected(object sender, SelectedItemChangedEventArgs e)
+    //gets email from sql using selectedEtunimi and selectedSukunimi
+    //used in SendEmail_Clicked to input client's email
+    public async Task<string> GetEmailByName(string selectedEtunimi, string selectedSukunimi)
     {
-        if (e.SelectedItem == null)
-            return;
+        string server = "localhost";
+        string database = "vn";
+        string username = "root";
+        string password = "VN_password"; // Ensure this is your correct password
+        string constring = $"SERVER={server};DATABASE={database};UID={username};PASSWORD={password};";
+        string asiakasEmail = "";
+
+        try
+        {
+            using (MySqlConnection conn = new MySqlConnection(constring))
+            {
+                await conn.OpenAsync();
+                string query = "SELECT email FROM asiakas WHERE etunimi = @etunimi AND sukunimi = @sukunimi";
+
+                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@etunimi", selectedEtunimi);
+                    cmd.Parameters.AddWithValue("@sukunimi", selectedSukunimi);
+
+                    object result = await cmd.ExecuteScalarAsync();
+                    if (result != null)
+                    {
+                        asiakasEmail = Convert.ToString(result);
+                    }
+                }
+            }
+        }
+        catch (MySqlException ex)
+        {
+            Console.WriteLine($"Error connecting to the database: {ex.Message}");
+            // Use Console.WriteLine for debugging purposes. 
+            // Replace with DisplayAlert or a suitable method for showing errors in your application context.
+        }
+        return asiakasEmail;
     }
 
 
-    // get information from selected client and booking options____________________________________
-
-    // Methods to retrieve information from the InfoPage
-    private string GetName()
-    {
-        // Retrieve the name from your data source (e.g., ViewModel)
-        return "John Doe";
-    }
-
-    private string GetClientId()
-    {
-        // Retrieve the client ID from your data source
-        return "123456";
-    }
-
-    private string GetAddress()
-    {
-        // Retrieve the address from your data source
-        return "123 Main St, City, State, Zip";
-    }
-
-    private string GetPhone()
-    {
-        // Retrieve the phone number from your data source
-        return "(555) 123-4567";
-    }
-
-    private string GetEmail()
-    {
-        // Retrieve the email from your data source
-        return "test.email@gmail.com";
-    }
-
-    // Define the event handler method with the correct signature
+    //Opens pdf file for view, used in OpenPdf_Clicked
+    //can be used to open the invoice pdf and view or use it, for example printing
     private void OpenPdf_Clicked(object sender, EventArgs e)
     {
         // Ensure the file path is not null or empty
@@ -165,10 +149,14 @@ public partial class Varausprosessi : ContentPage
             Console.WriteLine("PDF file path is not available.");
         }
     }
-
-    private void SendEmail_Clicked(object sender, EventArgs e)
+    
+    //Send the generated email invoice to the client
+    //used in OnSuoritaVarausClicked, opens email composer with pre-filled information when a booking is made
+    //opens users default email client with the invoice attached
+    private async void SendEmail_Clicked(object sender, EventArgs e)
     {
-        string clientEmail = GetEmail();
+        //asiakkaanEmail
+        string clientEmail = await GetEmailByName(selectedEtunimi, selectedSukunimi);
 
         // Ensure the file path is not null or empty
         if (!string.IsNullOrEmpty(pdfFilePath))
@@ -207,7 +195,10 @@ public partial class Varausprosessi : ContentPage
             Console.WriteLine("PDF file path is not available.");
         }
     }
-    //GET ASIAKAS ID BY NAME____________________________________________________________________________________
+
+    //gets client's Id from sql using selectedEtunimi and selectedSukunimi
+    //needed for creating a new varaus for connecting the client to the booking
+    //used in invoice generation
     public async Task<int> GetIdByName(string selectedEtunimi, string selectedSukunimi)
     {
         string server = "localhost";
@@ -215,7 +206,7 @@ public partial class Varausprosessi : ContentPage
         string username = "root";
         string password = "VN_password"; // Ensure this is your correct password
         string constring = $"SERVER={server};DATABASE={database};UID={username};PASSWORD={password};";
-        int firstAsiakasId = -1;
+        int asiakasId = -1;
 
         try
         {
@@ -232,7 +223,7 @@ public partial class Varausprosessi : ContentPage
                     object result = await cmd.ExecuteScalarAsync();
                     if (result != null)
                     {
-                        firstAsiakasId = Convert.ToInt32(result);
+                        asiakasId = Convert.ToInt32(result);
                     }
                 }
             }
@@ -240,13 +231,13 @@ public partial class Varausprosessi : ContentPage
         catch (MySqlException ex)
         {
             Console.WriteLine($"Error connecting to the database: {ex.Message}");
-            // Use Console.WriteLine for debugging purposes. 
-            // Replace with DisplayAlert or a suitable method for showing errors in your application context.
-        }
 
-        return firstAsiakasId;
+        }
+        return asiakasId;
     }
 
+    //gets alueId from sql using selectedAlue
+    //needed for booking process that need to know about the area
     public async Task<int> GetAlueIdByName(string selectedAlue)
     {
         string server = "localhost";
@@ -278,14 +269,13 @@ public partial class Varausprosessi : ContentPage
         catch (MySqlException ex)
         {
             Console.WriteLine($"Error connecting to the database: {ex.Message}");
-            // Use Console.WriteLine for debugging purposes. 
-            // Replace with DisplayAlert or a suitable method for showing errors in your application context.
-        }
 
+        }
         return alueId;
     }
 
-
+    //gets cabin's id and price from sql using selectedMokki
+    //used to process the booking and calculate the total price
     public async Task<(int, double)> GetMokkiIdAnPriceByName(string selectedMokki)
     {
         int mokkiId = -1; // Default value if no ID is found
@@ -335,7 +325,8 @@ public partial class Varausprosessi : ContentPage
         return (mokkiId, hinta);
     }
 
-    //get lisäpalveluiden tiedot listoina jokaiselle lisäpalvelulle, id ja hinta____________________________________________________________________________________
+    //gets additional services' id and price from sql using selectedLisapalvelut
+    //used to process the booking and calculate the total price
     public class LisapalveluInfo
     {
         public int PalveluId { get; set; }
@@ -394,6 +385,7 @@ public partial class Varausprosessi : ContentPage
         return serviceData;
     }
 
+    //calculates the total price of the additional services, also adds VAT
     public async Task<double> TotalHintaPalvelut(List<string> serviceNames, int alueId)
     {
         const double ALV = 0.24;  // Example VAT rate of 24%
@@ -408,7 +400,10 @@ public partial class Varausprosessi : ContentPage
     }
 
 
-    //CONNECT TO SQL, CREATE VARAUS____________________________________________________________________________________
+    //inserts a new booking to sql using information from the booking process
+    //returns booking id for further use
+    //used in OnSuoritaVarausClicked to create a new booking
+    //stores the booking information to the database
     public async Task<int> LisaaVarausAsync(int asiakasId, int mokkiId, DateTime alkuPvm, DateTime loppuPvm)
     {
         string server = "localhost";
@@ -450,6 +445,9 @@ public partial class Varausprosessi : ContentPage
         return newVarausId; //palauttaa varausID:n koodissa käytettäväksi, varaus luotu JO tässä vaiheessa SQL päässä
     }
 
+    //inserts booking spesific additional services to sql using information from the booking process
+    //used in OnSuoritaVarausClicked to add additional services to the booking
+    //used to track which services are added to the booking
     public async Task InsertAdditionalServices(int varausId, List<LisapalveluInfo> services)
     {
         string server = "localhost";
@@ -488,7 +486,10 @@ public partial class Varausprosessi : ContentPage
 
 
 
-    //generate pdf____________________________________________________________________________________
+    //generates a pdf invoice using information from the booking process
+    //triggered by OnSuoritaVarausClicked
+    //details client, booking, cabin, additional services, total price
+    //saves the pdf to the Billing folder, uses the client's Id and timestamp as the file name
     private async void GeneratePdf(int asiakasId, double hinta, double totalPalveluHintaJaAlv, int varausId) //put generatepdf() to suorita varaus-nappi!
     {
         int days = (loppuPvmDate - alkuPvmDate).Days; // Calculate the number of days between the start and end dates
@@ -497,7 +498,8 @@ public partial class Varausprosessi : ContentPage
         //lisapalveluiden yksittäiset hinnat
         List<LisapalveluInfo> additionalServices = await FetchLisapalveluDataAsync(lisapalveluLista.ToList());
 
-        string clientId = GetClientId(); // Retrieve the client's ID
+        //string clientId = GetIdByName(selectedEtunimi, selectedSukunimi).ToString(); // Tämä kaataa sovelluksen koska GetIdByName palauttaa Task<int>
+        string clientId = asiakasId.ToString(); // Get the client ID
         string timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");
         long laskuId = long.Parse(timestamp); // Convert the timestamp to a long (e.g., 20210915120000
         string fileName = $"{clientId}_{timestamp}.pdf";
@@ -525,14 +527,6 @@ public partial class Varausprosessi : ContentPage
             DisplayAlert("File Exists", "A bill for this client already exists.", "OK");
             return; // Exit the method without generating the PDF
         }
-
-        // Retrieve invoice data from SQL database (replace with actual SQL query)
-        string[] items = { "Item 1", "Item 2", "Item 3" };
-        int[] quantities = { 1, 2, 1 };
-        decimal[] prices = { 10.50m, 20.00m, 15.75m };
-
-        // Calculate total
-        decimal total = prices.Sum();
 
         // Create a new PDF document
         PdfDocument document = new PdfDocument();
@@ -607,15 +601,13 @@ public partial class Varausprosessi : ContentPage
         // Draw price information
         //double totalPalveluHintaJaAlv = await TotalHintaPalvelut(lisapalveluLista.ToList());
         gfx.DrawString("Additional Services Total:", headingFont, headingBrush, new XPoint(300, 470));
-        gfx.DrawString($"{totalPalveluHintaJaAlv}", defaultFont, textBrush, new XPoint(300, 490));
+        gfx.DrawString($"{totalPalveluHintaJaAlv.ToString("C")}", defaultFont, textBrush, new XPoint(300, 490));
 
         double grandTotal = totalHinta + totalPalveluHintaJaAlv;
         // Draw grand total
         int grandTotalYPos = yPos + (lisapalveluLista.Count > 0 ? 20 : 0); // Adjust position based on the number of services listed
         gfx.DrawString("Grand Total:", headingFont, headingBrush, new XPoint(30, grandTotalYPos));
         gfx.DrawString($"{grandTotal.ToString("C")}", defaultFont, textBrush, new XPoint(200, grandTotalYPos));
-
-
 
         // Save the document
         document.Save(filePath);
@@ -626,6 +618,8 @@ public partial class Varausprosessi : ContentPage
         await InsertLaskuAsync(laskuId, varausId, totalHinta + totalPalveluHintaJaAlv, 0.24);
     }
 
+    //inserting invoice details to database after the invoice is generated
+    //used in GeneratePdf
     public async Task InsertLaskuAsync(long laskuId, int varausId, double summa, double alv)
     {
         string connectionString = $"SERVER=localhost;DATABASE=vn;UID=root;PASSWORD=VN_password;";
@@ -655,24 +649,23 @@ public partial class Varausprosessi : ContentPage
         }
     }
 
-
-    //billing options____________________________________________________________________________________
-    // Class-level variable to track if a billing option has been selected
+    //handles the booking process, creates a new booking, adds additional services, generates an invoice
+    //main function triggers when button "Suorita varaus" is clicked
+    //calls other functions to handle the booking process
     private async void OnSuoritaVarausClicked(object sender, EventArgs e)
     {
         int alueId = await GetAlueIdByName(selectedAlue); // Obtain alueId
+        string asiakasEmail = await GetEmailByName(selectedEtunimi, selectedSukunimi); // Get the client's email address
         int asiakasId = await GetIdByName(selectedEtunimi, selectedSukunimi); // Get the client ID from the selected client for testing its the first one
         var totalPalveluHintaJaAlv = await TotalHintaPalvelut(lisapalveluLista.ToList(), alueId); // Calculate the total price with VAT
         var (mokkiId, hinta) = await GetMokkiIdAnPriceByName(selectedMokki); // Get the cabin ID from the selected cabin
         int varausId = await LisaaVarausAsync(asiakasId, mokkiId, alkuPvmDate, loppuPvmDate);
-        await InsertAdditionalServices(varausId, await FetchLisapalveluDataAsync(lisapalveluLista.ToList()));
-        //hankitaan asiakasID ja mokkinID, insertataan varausID_________________________________
-
 
         // Generate the PDF
         GeneratePdf(asiakasId, hinta, totalPalveluHintaJaAlv, varausId); //oikeastaan lasku luodaan jo tässä vaiheessa vaikka ei vielä valittaisi laskutusvaihtoehtoa
-        //voisi muokata pdf tiedostojen nimeä esim: "lasku" + asiakasid + timestamp + ".pdf" ->
-        //estetään kopioden luonti tarkastuksella, esim: asiakkaalla: nimi + id on jo lasku, haluatko varmasti luoda uuden laskun?
+
+        await InsertAdditionalServices(varausId, await FetchLisapalveluDataAsync(lisapalveluLista.ToList()));
+        //hankitaan asiakasID ja mokkinID, insertataan varausID_________________________________
 
         // Get the count of selected billing options
         var selectedOptionsCount = BillingOptions.Count(option => option.IsSelected);
@@ -686,13 +679,12 @@ public partial class Varausprosessi : ContentPage
             if (selectedOption == "Email")
             {
                 SendEmail_Clicked(sender, e);
-                DisplayAlert($"Varaus luotu. Lasku luotu Billing -kansioon.  Mökin id: {mokkiId}, Varauksen ID: {varausId}", "Lasku avattu sähköpostissa käsittelyä varten.", "OK");
+                DisplayAlert($"Varaus luotu. Lasku luotu Billing -kansioon.", "Lasku avattu sähköpostissa käsittelyä varten.", "OK");
             }
             else if (selectedOption == "Print")
             {
                 OpenPdf_Clicked(sender, e);
-                //DisplayAlert("Varaus luotu. Lasku luotu Billing -kansioon.", "Lasku avattu tulostusta varten.", "OK");
-                DisplayAlert($"Varaus luotu. Lasku luotu Billing -kansioon. totalpalveluhinta: {totalPalveluHintaJaAlv}, Varauksen ID: {varausId}", $"Lasku avattu tulostusta varten.", "OK");
+                DisplayAlert($"Varaus luotu. Lasku luotu Billing -kansioon.", $"Lasku avattu tulostusta varten.", "OK");
             }
         }
         else if (selectedOptionsCount > 1)
@@ -706,6 +698,4 @@ public partial class Varausprosessi : ContentPage
             DisplayAlert("Laskutusta ei valittu!", "Valitse yksi vaihtoehto.", "OK");
         }
     }
-
-
 }
