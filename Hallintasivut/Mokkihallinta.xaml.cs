@@ -56,7 +56,7 @@ namespace booking_VillageNewbies
         }
         private async Task HaeAlueNimet()
         {
-            string constring = $"SERVER=localhost;DATABASE=vn;UID=root;PASSWORD=Salasana-1212;";
+            string constring = $"SERVER=localhost;DATABASE=vn;UID=root;PASSWORD=VN_password;";
             Alueet.Clear(); // Tyhjennä lista ennen uuden datan hakemista
 
             try
@@ -119,7 +119,7 @@ namespace booking_VillageNewbies
             string server = "localhost";
             string database = "vn";
             string username = "root";
-            string password = "Salasana-1212";
+            string password = "VN_password";
             string constring = "SERVER=" + server + ";" + "DATABASE=" + database + ";" +
                 "UID=" + username + ";" + "PASSWORD=" + password + ";";
 
@@ -166,7 +166,7 @@ namespace booking_VillageNewbies
             string server = "localhost";
             string database = "vn";
             string username = "root";
-            string password = "Salasana-1212";
+            string password = "VN_password";
             string constring = "SERVER=" + server + ";" + "DATABASE=" + database + ";" +
                 "UID=" + username + ";" + "PASSWORD=" + password + ";";
 
@@ -231,7 +231,7 @@ namespace booking_VillageNewbies
                         string server = "localhost";
                         string database = "vn";
                         string username = "root";
-                        string password = "Salasana-1212";
+                        string password = "VN_password";
                         string constring = "SERVER=" + server + ";" + "DATABASE=" + database + ";" +
                             "UID=" + username + ";" + "PASSWORD=" + password + ";";
 
@@ -288,7 +288,7 @@ namespace booking_VillageNewbies
             string server = "localhost";
             string database = "vn";
             string username = "root";
-            string password = "Salasana-1212";
+            string password = "VN_password";
             string constring = "SERVER=" + server + ";" + "DATABASE=" + database + ";" +
                 "UID=" + username + ";" + "PASSWORD=" + password + ";";
 
@@ -404,7 +404,7 @@ namespace booking_VillageNewbies
             string server = "localhost";
             string database = "vn";
             string username = "root";
-            string password = "Salasana-1212";
+            string password = "VN_password";
             string constring = "SERVER=" + server + ";" + "DATABASE=" + database + ";" +
                 "UID=" + username + ";" + "PASSWORD=" + password + ";";
 
@@ -449,7 +449,7 @@ namespace booking_VillageNewbies
             string server = "localhost";
             string database = "vn";
             string username = "root";
-            string password = "Salasana-1212";
+            string password = "VN_password";
             string constring = "SERVER=" + server + ";" + "DATABASE=" + database + ";" +
                 "UID=" + username + ";" + "PASSWORD=" + password + ";";
 

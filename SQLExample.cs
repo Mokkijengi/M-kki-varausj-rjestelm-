@@ -9,7 +9,7 @@ namespace booking_VillageNewbies
             string server = "localhost";
             string database = "hovi";
             string username = "root";
-            string password = "Salasana-1212";
+            string password = "VN_password";
            // int port = 3306;
             string constring = "SERVER=" + server + ";" + "DATABASE=" + database + ";" +
             "UID=" + username + ";" + "PASSWORD=" + password + ";";
