@@ -50,9 +50,9 @@ namespace booking_VillageNewbies
 
             CheckBoxItems = new ObservableCollection<CheckBoxItem>
             {
-                new CheckBoxItem { IsSelected = false, Label = "Option 1" },
-                new CheckBoxItem { IsSelected = false, Label = "Option 2" },
-                new CheckBoxItem { IsSelected = false, Label = "Option 3" }
+                new CheckBoxItem { IsSelected = false, Label = "" },
+                new CheckBoxItem { IsSelected = false, Label = "" },
+                new CheckBoxItem { IsSelected = false, Label = "" }
             };
 
             Aasiakkaat = new ObservableCollection<Asiakas>();
@@ -121,7 +121,7 @@ namespace booking_VillageNewbies
             string server = "localhost";
             string database = "vn";
             string username = "root";
-            string password = "VN_password";
+            string password = "Rookal1nikke";
             string constring = "SERVER=" + server + ";" + "DATABASE=" + database + ";" +
                 "UID=" + username + ";" + "PASSWORD=" + password + ";";
 
@@ -169,7 +169,7 @@ namespace booking_VillageNewbies
             string server = "localhost";
             string database = "vn";
             string username = "root";
-            string password = "VN_password";
+            string password = "Rookal1nikke";
             string constring = "SERVER=" + server + ";" + "DATABASE=" + database + ";" +
                 "UID=" + username + ";" + "PASSWORD=" + password + ";";
 
@@ -222,7 +222,7 @@ namespace booking_VillageNewbies
             string server = "localhost";
             string database = "vn";
             string username = "root";
-            string password = "VN_password";
+            string password = "Rookal1nikke";
             string constring = "SERVER=" + server + ";" + "DATABASE=" + database + ";" +
                                "UID=" + username + ";" + "PASSWORD=" + password + ";";
 
@@ -278,7 +278,7 @@ namespace booking_VillageNewbies
             string server = "localhost";
             string database = "vn";
             string username = "root";
-            string password = "VN_password";
+            string password = "Rookal1nikke";
             string constring = "SERVER=" + server + ";" + "DATABASE=" + database + ";" +
                                "UID=" + username + ";" + "PASSWORD=" + password + ";";
 
@@ -322,7 +322,7 @@ namespace booking_VillageNewbies
             string server = "localhost";
             string database = "vn";
             string username = "root";
-            string password = "VN_password";
+            string password = "Rookal1nikke";
             string constring = "SERVER=" + server + ";" + "DATABASE=" + database + ";" +
                                "UID=" + username + ";" + "PASSWORD=" + password + ";";
 

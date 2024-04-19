@@ -6,94 +6,101 @@
     <ScrollView>
 
         <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="25*"/>
+                <ColumnDefinition Width="50*"/>
+                <ColumnDefinition Width="25*"/>
             </Grid.ColumnDefinitions>
 
-            <!-- Calendar block with -->
-            <Frame Grid.Row="0" Grid.Column="0">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="10"/>
-                        <!-- Small empty row for spacing -->
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="10"/>
-                        <!-- Small empty column for spacing -->
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
 
-                    <!-- Tulopäivä Header -->
-                    <Label Grid.Row="0" Grid.Column="0" Text="Tulopäivä" VerticalOptions="Center" HorizontalOptions="Start"/>
-                    <DatePicker Grid.Row="2" Grid.Column="0" x:Name="alkuPvm" Date="{Binding Date}" BackgroundColor="{StaticResource VN_PrimaryColor}"/>
+            <!-- Ensimmäinen osa-->
+            <Grid Grid.Column= "0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
 
-                    <!-- Lähtöpäivä Header -->
-                    <Label Grid.Row="0" Grid.Column="2" Text="Lähtöpäivä" VerticalOptions="Center" HorizontalOptions="Start" />
-                    <DatePicker Grid.Row="2" Grid.Column="2" x:Name="loppuPvm" Date="{Binding Date}" BackgroundColor="{StaticResource VN_PrimaryColor}"/>
-                </Grid>
-            </Frame>
-            <!-- Frame for Client Selection on the left -->
-            <!-- How to change the selected to highlight? OR get it to label-->
-            <Frame Grid.Row="1"  Grid.Column="0" Grid.RowSpan="1">
-                <VerticalStackLayout>
-                    <SearchBar BackgroundColor="{StaticResource VN_PrimaryColor}" x:Name="clientSearchBar" Placeholder="Hae asiakas nimellä" TextChanged="OnSearchTextChanged"/>
-                    <ListView BackgroundColor="{StaticResource VN_PrimaryColor}" x:Name="clientListView" ItemsSource="{Binding Aasiakkaat}" IsPullToRefreshEnabled="True" RefreshCommand="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}" ItemSelected="OnClientSelected">
-                        <ListView.Header>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="100" />
-                                    <!-- <ColumnDefinition Width="*" /> -->
-                                </Grid.ColumnDefinitions>
-                                <!-- <Label Text="Client ID" FontAttributes="Bold" Grid.Column="0" /> -->
-                                <Label Text="Name" FontAttributes="Bold" Grid.Column="1" />
-                            </Grid>
-                        </ListView.Header>
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <ViewCell>
-                                    <Grid Padding="5">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="100" />
-                                            <!-- <ColumnDefinition Width="*" /> -->
-                                        </Grid.ColumnDefinitions>
-                                        <!-- <Label Grid.Column="0" Text="{Binding ClientId}" /> -->
-                                        <Label Grid.Column="1" Text="{Binding Nimi}" />
-                                    </Grid>
-                                </ViewCell>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </VerticalStackLayout>
-            </Frame>
+                <!-- Calendar block with -->
+                <Frame Grid.Row="0" Grid.Column="0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="10"/>
+                            <!-- Small empty row for spacing -->
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="10"/>
+                            <!-- Small empty column for spacing -->
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Tulopäivä Header -->
+                        <Label Grid.Row="0" Grid.Column="0" Text="Tulopäivä" VerticalOptions="Center" HorizontalOptions="Start"/>
+                        <DatePicker Grid.Row="2" Grid.Column="0" x:Name="alkuPvm" Date="{Binding Date}" BackgroundColor="{StaticResource VN_PrimaryColor}"/>
+
+                        <!-- Lähtöpäivä Header -->
+                        <Label Grid.Row="0" Grid.Column="2" Text="Lähtöpäivä" VerticalOptions="Center" HorizontalOptions="Start" />
+                        <DatePicker Grid.Row="2" Grid.Column="2" x:Name="loppuPvm" Date="{Binding Date}" BackgroundColor="{StaticResource VN_PrimaryColor}"/>
+                    </Grid>
+                </Frame>
+                <!-- Frame for Client Selection on the left -->
+                <!-- How to change the selected to highlight? OR get it to label-->
+                <Frame Grid.Row="1"  Grid.Column="0" Grid.RowSpan="1">
+                    <VerticalStackLayout>
+                        <SearchBar BackgroundColor="{StaticResource VN_PrimaryColor}" x:Name="clientSearchBar" Placeholder="Hae asiakas tunnuksella tai nimellä" />
+                        <ListView BackgroundColor="{StaticResource VN_PrimaryColor}" x:Name="clientListView" ItemsSource="{Binding Aasiakkaat}" IsPullToRefreshEnabled="True" RefreshCommand="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}">
+                            <ListView.Header>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="100" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Text="Name" FontAttributes="Bold" Grid.Column="1" />
+                                </Grid>
+                            </ListView.Header>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <Grid Padding="5">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="100" />
+                                            </Grid.ColumnDefinitions>
+                                            <Label Grid.Column="1" Text="{Binding Nimi}" />
+                                        </Grid>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </VerticalStackLayout>
+                </Frame>
 
 
-            <!-- Opening List -->
-            <Frame Grid.Row="2" Grid.Column="0">
-                <Picker x:Name="aluePicker" Title="Valitse alue" BackgroundColor="{StaticResource VN_PrimaryColor}" HorizontalOptions="Start" WidthRequest="250"/>
-            </Frame>
+                <!-- Opening List -->
+                <Frame Grid.Row="2" Grid.Column="0">
+                    <Picker x:Name="aluePicker" Title="Valitse alue" BackgroundColor="{StaticResource VN_PrimaryColor}" HorizontalOptions="Start" WidthRequest="250"/>
+                </Frame>
 
-            <!-- List of Items -->
-            <Frame Grid.Row="3">
-                <Picker x:Name="cabinListPicker" Title="Valitse mökki" BackgroundColor="{StaticResource VN_PrimaryColor}" HorizontalOptions="Start" WidthRequest="250"/>
-            </Frame>
+                <!-- List of Items -->
+                <Frame Grid.Row="3">
+                    <Picker x:Name="cabinListPicker" Title="Valitse mökki" BackgroundColor="{StaticResource VN_PrimaryColor}" HorizontalOptions="Start" WidthRequest="250"/>
+                </Frame>
+            </Grid>
 
-            <Grid Grid.Row="0" Grid.Column="1" Margin="10,10,10,10">
+            <!-- Toinen osa-->
+            <Grid Grid.Column="1" Margin="10">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="10" />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -108,28 +115,28 @@
                 <Label Grid.Row="0" Text="Mökin tiedot"  Margin="10" FontSize="30"/>
 
                 <!-- Label -->
-                <Label Grid.Row="1" Text="Mökin nimi"  x:Name="cabinNameLabel" Margin="10" FontSize="30"/>
+                <Label Grid.Row="1" Text="Mökin nimi"  x:Name="cabinNameLabel" Margin="12" FontSize="20"/>
 
                 <!-- Textboxes -->
-                <Label Grid.Row="2" Text="Mökin sijainti"  x:Name="areaLabel" Margin="10"/>
-                <Label Grid.Row="3" Text="Mökin osoite"  x:Name="addressLabel" Margin="10"/>
+                <Label Grid.Row="2" Text="Mökin sijainti"  x:Name="areaLabel" Margin="12"/>
+                <Label Grid.Row="3" Text="Mökin osoite"  x:Name="addressLabel" Margin="12"/>
 
                 <!-- Large Textbox -->
-                <Label Grid.Row="4"   Margin="10"
+                <Label Grid.Row="4"   Margin="12"
                     Text="Mökin kuvaus" x:Name="descriptionLabel"
                     LineBreakMode="WordWrap"
                     MaxLines="10" MaximumWidthRequest="500"/>
 
                 <!-- Price and +alv -->
-                <StackLayout Grid.Row="5" Orientation="Horizontal" Margin="10">
-                    <Label Text="Mökin hinta/viikko" x:Name="priceLabel" VerticalOptions="Center" />
+                <StackLayout Grid.Row="5" Orientation="Horizontal" Margin="12">
+                    <Label Text="Mökin hinta€/viikko" x:Name="priceLabel" VerticalOptions="Center" />
                 </StackLayout>
 
-                <Label Grid.Row="6" Text="Mökin henkilömäärä" x:Name="capacityLabel" Margin="10"/>
+                <Label Grid.Row="6" Text="Mökin henkilömäärä" x:Name="capacityLabel" Margin="12"/>
 
                 <!-- Large Textbox -->
-                <Label Grid.Row="7" Margin="10"
-                    Text="Mökin Kuvaus" x:Name="amenitiesLabel"
+                <Label Grid.Row="7" Margin="12"
+                    Text="Mökin Varustelu" x:Name="amenitiesLabel"
                     LineBreakMode="WordWrap"
                     MaxLines="10" MaximumWidthRequest="500"/>
 
@@ -138,24 +145,31 @@
 
             </Grid>
 
-            <!-- CheckBox list -->
-            <ListView Grid.Row="0" Grid.Column="2" x:Name="checkBoxList" HorizontalOptions="EndAndExpand" Margin="10">
-                <ListView.Header>
-                    <Label Text="Valitse lisäpalvelut:" Margin="0,0,0,10"/>
-                </ListView.Header>
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <StackLayout Orientation="Horizontal">
-                                <CheckBox IsChecked="{Binding IsSelected}" />
-                                <Label Text="{Binding Label}" VerticalTextAlignment="Center" />
-                            </StackLayout>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
 
+
+            <!-- CheckBox list -->
+            <Grid Grid.Row="0" Grid.Column="2" HorizontalOptions="EndAndExpand" Margin="10">
+                <ListView  x:Name="checkBoxList">
+                    <ListView.Header>
+                        <Label Text="Valitse lisäpalvelut:" Margin="0,0,0,10"/>
+                    </ListView.Header>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Orientation="Horizontal">
+                                    <CheckBox IsChecked="{Binding IsSelected}" />
+                                    <Label Text="{Binding Label}" VerticalTextAlignment="Center" />
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+            </Grid>
         </Grid>
+
+
+
 
     </ScrollView>
 

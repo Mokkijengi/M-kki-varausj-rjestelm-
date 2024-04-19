@@ -47,7 +47,7 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Detailed Information" VerticalOptions="Center" FontAttributes="Bold" FontSize="Medium" Margin="0,0,0,20"/>
+                <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Asiakkaan tiedot" VerticalOptions="Center" FontAttributes="Bold" FontSize="Medium" Margin="0,0,0,20"/>
 
                 <!-- Alue and its value -->
                 <Label Grid.Row="1" Grid.Column="0" Text="Alue" VerticalOptions="Center" />
