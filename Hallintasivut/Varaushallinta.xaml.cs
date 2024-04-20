@@ -18,7 +18,7 @@ namespace booking_VillageNewbies.Hallintasivut
         private void TarkasteleLaskuja_Clicked(object sender, EventArgs e)
         {
             // billingFolderPath on jokaisella lokaalisti oma, joten vaihda sen tilalle omalla koneella oleva polkusi
-            string billingFolderPath = @"C:\Users\kalle\source\repos\Mokkijengi\M-kki-varausj-rjestelm-\Billing";
+            string billingFolderPath = @"C:\Users\matil\Koulu NOT OneDrive\VillageNewbies\Mokkijengi\M-kki-varausj-rjestelm-\Billing\";
 
             if (!Directory.Exists(billingFolderPath))
             {

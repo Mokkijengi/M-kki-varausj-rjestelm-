@@ -121,7 +121,7 @@ namespace booking_VillageNewbies
             string server = "localhost";
             string database = "vn";
             string username = "root";
-            string password = "Rookal1nikke";
+            string password = "VN_password";
             string constring = "SERVER=" + server + ";" + "DATABASE=" + database + ";" +
                 "UID=" + username + ";" + "PASSWORD=" + password + ";";
 
@@ -169,7 +169,7 @@ namespace booking_VillageNewbies
             string server = "localhost";
             string database = "vn";
             string username = "root";
-            string password = "Rookal1nikke";
+            string password = "VN_password";
             string constring = "SERVER=" + server + ";" + "DATABASE=" + database + ";" +
                 "UID=" + username + ";" + "PASSWORD=" + password + ";";
 
@@ -222,7 +222,7 @@ namespace booking_VillageNewbies
             string server = "localhost";
             string database = "vn";
             string username = "root";
-            string password = "Rookal1nikke";
+            string password = "VN_password";
             string constring = "SERVER=" + server + ";" + "DATABASE=" + database + ";" +
                                "UID=" + username + ";" + "PASSWORD=" + password + ";";
 
@@ -278,7 +278,7 @@ namespace booking_VillageNewbies
             string server = "localhost";
             string database = "vn";
             string username = "root";
-            string password = "Rookal1nikke";
+            string password = "VN_password";
             string constring = "SERVER=" + server + ";" + "DATABASE=" + database + ";" +
                                "UID=" + username + ";" + "PASSWORD=" + password + ";";
 
@@ -322,7 +322,7 @@ namespace booking_VillageNewbies
             string server = "localhost";
             string database = "vn";
             string username = "root";
-            string password = "Rookal1nikke";
+            string password = "VN_password";
             string constring = "SERVER=" + server + ";" + "DATABASE=" + database + ";" +
                                "UID=" + username + ";" + "PASSWORD=" + password + ";";
 

@@ -57,7 +57,7 @@ namespace booking_VillageNewbies
             string server = "localhost";
             string database = "vn";
             string username = "root";
-            string password = "Salasana-1212";
+            string password = "VN_password";
             string constring = $"SERVER={server};DATABASE={database};UID={username};PASSWORD={password};";
             int newAlueId = -1;
 
@@ -193,7 +193,7 @@ namespace booking_VillageNewbies
             catch (MySqlException ex)
             {
                 // Jos yleinen tietokantavirhe tapahtuu, näytä yleinen virheilmoitus.
-                await DisplayAlert("Tietokantavirhe", $"Virhe yhdistettäessä tietokantaan: {ex.Message}", "OK");
+                await DisplayAlert("Tietokantavirhe", $"Aluetta ei voi poistaa: Alueeseen liittyy aktiivisia tai liitettyjä varauksia. {ex.Message}", "OK");
             }
         }
     }

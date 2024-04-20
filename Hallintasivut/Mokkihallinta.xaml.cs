@@ -437,7 +437,7 @@ namespace booking_VillageNewbies
             }
             catch (MySqlException ex)
             {
-                await DisplayAlert("Error", "Error connecting to the database: " + ex.Message, "OK");
+                await DisplayAlert("Tietokantavirhe", "Mökkiä ei voi poistaa: Mökkiin liittyy aktiivisia varauksia tai palveluita." + ex.Message, "OK");
                 Console.WriteLine("Error connecting to the database: " + ex.Message);
             }
         }

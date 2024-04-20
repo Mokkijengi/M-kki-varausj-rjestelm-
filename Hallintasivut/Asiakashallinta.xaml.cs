@@ -290,7 +290,7 @@ namespace booking_VillageNewbies
             }
             catch (MySqlException ex)
             {
-                await DisplayAlert("Tietokantavirhe", $"Virhe yhdistettäessä tietokantaan: {ex.Message}", "OK");
+                await DisplayAlert("Tietokantavirhe", $"Asiakasta ei voi poistaa: Asiakkaalla on aktiivisia varauksia. {ex.Message}", "OK");
             }
         }
 

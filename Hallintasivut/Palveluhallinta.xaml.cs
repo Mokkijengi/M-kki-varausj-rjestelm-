@@ -349,7 +349,7 @@ namespace booking_VillageNewbies
             }
             else
             {
-                await DisplayAlert("Virhe", "Valitse ensin poistettava palvelu.", "OK");
+                await DisplayAlert("Tietokantavirhe", "Palvelua ei voi poistaa: Palvelulla on aktiivisia varauksia.", "OK");
             }
         }
 
@@ -396,7 +396,7 @@ namespace booking_VillageNewbies
             catch (MySqlException ex)
             {
                 //Jos tietokantayhteydessä tapahtuu virhe kerrotaan myös siitä
-                await DisplayAlert("Tietokantavirhe", $"Virhe yhdistettäessä tietokantaan: {ex.Message}", "OK");
+                await DisplayAlert("Tietokantavirhe", "Palvelua ei voitu poistaa. Palvelulle on aktiivisia varauksia." + ex.Message, "OK");
             }
         }
 
