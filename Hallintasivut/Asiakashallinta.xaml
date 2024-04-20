@@ -14,16 +14,12 @@
             <Entry x:Name="sukuNimi" Placeholder="Sukunimi"/>
 
             <Entry x:Name="lahiOsoite" Placeholder="Lähiosoite"/>
+            
             <Entry x:Name="postinro" Placeholder="Postinumero"/>
-
 
             <Entry x:Name="eMail" Placeholder="Email"/>
 
             <Entry x:Name="puhNumero" Placeholder="Puhelinnumero"/>
-
-            <Picker x:Name="varaukset" Title="Varaukset" WidthRequest="300"/>
-
-            <Picker x:Name="laskut" Title="Laskut" WidthRequest="300"/>
 
             <Button Text="Lisää asiakas" Clicked="LisaaAsiakas_Clicked"/>
 

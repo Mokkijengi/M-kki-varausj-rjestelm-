@@ -433,9 +433,9 @@ namespace booking_VillageNewbies
                 await DisplayAlert("Tietokantavirhe", $"Virhe yhdistettäessä tietokantaan: {ex.Message}", "OK");
             }
             OnPropertyChanged(nameof(Alueet));
-        
+
         }
-    
+
 
 
 
