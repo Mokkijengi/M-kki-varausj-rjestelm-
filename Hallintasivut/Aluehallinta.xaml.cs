@@ -57,7 +57,7 @@ namespace booking_VillageNewbies
             string server = "localhost";
             string database = "vn";
             string username = "root";
-            string password = "password";
+            string password = "Salasana-1212";
             string constring = $"SERVER={server};DATABASE={database};UID={username};PASSWORD={password};";
             int newAlueId = -1;
 
@@ -139,11 +139,11 @@ namespace booking_VillageNewbies
         }
 
         private async void PoistaAlue_Clicked(object sender, EventArgs e)//Napilla suoritetaan "PoistaValittuAlue"
-         //Ensin tarkistetaan että alue on valittu, jos on, poistetaan valittu alue tietokannasta
+                                                                         //Ensin tarkistetaan että alue on valittu, jos on, poistetaan valittu alue tietokannasta
         {
             if (aluePicker.SelectedItem != null)
             {
-                string valittuAlueNimi = aluePicker.SelectedItem.ToString();
+                string valittuAlueNimi = aluePicker.SelectedItem.ToString().Trim();
                 await PoistaValittuAlue(valittuAlueNimi);
                 await HaeAlueNimet(); // Päivitä alueiden nimet poiston jälkeen
             }
@@ -153,7 +153,7 @@ namespace booking_VillageNewbies
             }
         }
 
-        public async Task PoistaValittuAlue(string alueenNimi)//Poistetaan valittu alue, käyttäen sen nimeä
+        public async Task PoistaValittuAlue(string alueenNimi)
         {
             string server = "localhost";
             string database = "vn";
@@ -166,8 +166,22 @@ namespace booking_VillageNewbies
                 using (MySqlConnection conn = new MySqlConnection(constring))
                 {
                     await conn.OpenAsync();
-                    string deleteQuery = @"DELETE FROM alue WHERE nimi = @nimi";
+                    // Tarkista ensin, onko alueella liittyviä palveluita.
+                    string checkQuery = "SELECT COUNT(*) FROM palvelu WHERE alue_id = (SELECT alue_id FROM alue WHERE nimi = @nimi)";
+                    using (MySqlCommand cmdCheck = new MySqlCommand(checkQuery, conn))
+                    {
+                        cmdCheck.Parameters.AddWithValue("@nimi", alueenNimi);
+                        int count = Convert.ToInt32(await cmdCheck.ExecuteScalarAsync());
+                        if (count > 0)
+                        {
+                            // Jos liittyviä palveluita on, näytä virheilmoitus ja palaa.
+                            await DisplayAlert("Poisto epäonnistui", $"Aluetta '{alueenNimi}' ei voi poistaa, koska siihen liittyy vielä palveluita.", "OK");
+                            return;
+                        }
+                    }
 
+                    // Jos ei ole liittyviä palveluita, jatka poistoon.
+                    string deleteQuery = @"DELETE FROM alue WHERE nimi = @nimi";
                     using (MySqlCommand cmd = new MySqlCommand(deleteQuery, conn))
                     {
                         cmd.Parameters.AddWithValue("@nimi", alueenNimi);
@@ -178,6 +192,7 @@ namespace booking_VillageNewbies
             }
             catch (MySqlException ex)
             {
+                // Jos yleinen tietokantavirhe tapahtuu, näytä yleinen virheilmoitus.
                 await DisplayAlert("Tietokantavirhe", $"Virhe yhdistettäessä tietokantaan: {ex.Message}", "OK");
             }
         }

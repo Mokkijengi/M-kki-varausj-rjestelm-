@@ -1,15 +1,19 @@
+using MySql.Data.MySqlClient;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
-using Windows.System;
 
 namespace booking_VillageNewbies.Hallintasivut
 {
     public partial class Varaushallinta : ContentPage
     {
+        public ObservableCollection<string> AlueNimet { get; set; }
+
         public Varaushallinta()
         {
             InitializeComponent();
         }
+
 
         private void TarkasteleLaskuja_Clicked(object sender, EventArgs e)
         {

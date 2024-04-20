@@ -63,10 +63,7 @@ namespace booking_VillageNewbies
                 using (MySqlConnection conn = new MySqlConnection(constring))
                 {
                     await conn.OpenAsync();
-                    string query = @"
-            SELECT asiakas_id, etunimi, sukunimi, lahiosoite, email, puhelinnro 
-            FROM asiakas;";
-
+                    string query = "SELECT asiakas_id, etunimi, sukunimi, lahiosoite, postinro, email, puhelinnro FROM asiakas;";
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
                         using (var reader = await cmd.ExecuteReaderAsync())
@@ -80,11 +77,10 @@ namespace booking_VillageNewbies
                                     Etunimi = reader.IsDBNull(reader.GetOrdinal("etunimi")) ? string.Empty : reader.GetString("etunimi"),
                                     Sukunimi = reader.IsDBNull(reader.GetOrdinal("sukunimi")) ? string.Empty : reader.GetString("sukunimi"),
                                     Lahiosoite = reader.IsDBNull(reader.GetOrdinal("lahiosoite")) ? null : reader.GetString("lahiosoite"),
+                                    Postinro = reader.IsDBNull(reader.GetOrdinal("postinro")) ? null : reader.GetString("postinro"),
                                     Email = reader.IsDBNull(reader.GetOrdinal("email")) ? null : reader.GetString("email"),
                                     Puhelinnro = reader.IsDBNull(reader.GetOrdinal("puhelinnro")) ? null : reader.GetString("puhelinnro"),
-                                    AsiakkaanNimi = reader.IsDBNull(reader.GetOrdinal("etunimi")) || reader.IsDBNull(reader.GetOrdinal("sukunimi"))
-                                        ? string.Empty
-                                        : reader.GetString("etunimi") + " " + reader.GetString("sukunimi")
+                                    AsiakkaanNimi = $"{reader.GetString("etunimi")} {reader.GetString("sukunimi")}"
                                 });
                             }
                             await MainThread.InvokeOnMainThreadAsync(() =>
@@ -104,6 +100,7 @@ namespace booking_VillageNewbies
                 await DisplayAlert("Tietokantavirhe", $"Virhe haettaessa tietoja tietokannasta: {ex.Message}", "OK");
             }
         }
+
 
 
 
@@ -200,7 +197,7 @@ namespace booking_VillageNewbies
                 using (MySqlConnection conn = new MySqlConnection(constring))
                 {
                     await conn.OpenAsync();
-                    string updateQuery = @"UPDATE asiakas SET etunimi = @etunimi, sukunimi = @sukunimi, lahiosoite = @lahiosoite, email = @email, puhelinnro = @puhelinnro WHERE asiakas_id = @asiakas_id";
+                    string updateQuery = @"UPDATE asiakas SET etunimi = @etunimi, sukunimi = @sukunimi, lahiosoite = @lahiosoite, email = @email, postinro = @postinro, puhelinnro = @puhelinnro WHERE asiakas_id = @asiakas_id";
 
                     using (MySqlCommand cmd = new MySqlCommand(updateQuery, conn))
                     {
@@ -210,6 +207,7 @@ namespace booking_VillageNewbies
                         cmd.Parameters.AddWithValue("@lahiosoite", lahiOsoite.Text);
                         cmd.Parameters.AddWithValue("@email", eMail.Text);
                         cmd.Parameters.AddWithValue("@puhelinnro", puhNumero.Text);
+                        cmd.Parameters.AddWithValue("@postinro", postinro.Text);
 
                         int rowsAffected = await cmd.ExecuteNonQueryAsync();
                         if (rowsAffected > 0)
@@ -246,6 +244,7 @@ namespace booking_VillageNewbies
                 lahiOsoite.Text = valittuAsiakas.Lahiosoite;
                 eMail.Text = valittuAsiakas.Email;
                 puhNumero.Text = valittuAsiakas.Puhelinnro;
+                postinro.Text = valittuAsiakas.Postinro;
             }
         }
 
@@ -311,6 +310,7 @@ namespace booking_VillageNewbies
         public string Lahiosoite { get; set; }
         public string Email { get; set; }
         public string Puhelinnro { get; set; }
+        public string Postinro { get; set; }
 
     }
 
